@@ -132,7 +132,7 @@ joinChannel_2(){
     peer channel join -b ./channel-artifacts/$CHANNEL_NAME_2.block
     updateAnchorPeers_2
 
-    setGlobalsForPeer1RawMaterialSupplier
+    setGlobalsForPeer1ComponentSupplier
     peer channel join -b ./channel-artifacts/$CHANNEL_NAME_2.block
     updateAnchorPeers_2
     
