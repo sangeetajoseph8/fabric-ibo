@@ -396,18 +396,16 @@ Profiles:
                   Port: 6050
                   ClientTLSCert: crypto-config/ordererOrganizations/ibo.com/orderers/orderer.ibo.com/tls/server.crt
                   ServerTLSCert: crypto-config/ordererOrganizations/ibo.com/orderers/orderer.ibo.com/tls/server.crt
-                - Host: orderer2.ibo.com
-                  Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/ibo.com/orderers/orderer2.ibo.com/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/ibo.com/orderers/orderer2.ibo.com/tls/server.crt
-                - Host: orderer3.ibo.com
-                  Port: 8050
-                  ClientTLSCert: crypto-config/ordererOrganizations/ibo.com/orderers/orderer3.ibo.com/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/ibo.com/orderers/orderer3.ibo.com/tls/server.crt
+            #     - Host: orderer2.ibo.com
+            #       Port: 7050
+            #       ClientTLSCert: crypto-config/ordererOrganizations/ibo.com/orderers/orderer2.ibo.com/tls/server.crt
+            #       ServerTLSCert: crypto-config/ordererOrganizations/ibo.com/orderers/orderer2.ibo.com/tls/server.crt
+            #     - Host: orderer3.ibo.com
+            #       Port: 8050
+            #       ClientTLSCert: crypto-config/ordererOrganizations/ibo.com/orderers/orderer3.ibo.com/tls/server.crt
+            #       ServerTLSCert: crypto-config/ordererOrganizations/ibo.com/orderers/orderer3.ibo.com/tls/server.crt
             Addresses:
                 - orderer.ibo.com:6050
-                - orderer2.ibo.com:7050
-                - orderer3.ibo.com:8050
 
             Organizations:
             - *OrdererOrg
