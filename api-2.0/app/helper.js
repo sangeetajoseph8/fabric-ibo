@@ -4,33 +4,37 @@ var { Gateway, Wallets } = require('fabric-network');
 const path = require('path');
 const FabricCAServices = require('fabric-ca-client');
 const fs = require('fs');
+const yaml = require('js-yaml');
 
 const util = require('util');
 
-
-
-
 const getCCP = async (org) => {
     let ccpPath;
-    if (org == "Org1") {
-        ccpPath = path.resolve(__dirname, '..', 'config', 'connection-org1.json');
-
-    } else if (org == "Org2") {
-        ccpPath = path.resolve(__dirname, '..', 'config', 'connection-org2.json');
+    if (org == "Customer") {
+        ccpPath = path.resolve(__dirname, '..', 'config', 'connection-customer.yaml');
+    } else if (org == "Manufacturer") {
+        ccpPath = path.resolve(__dirname, '..', 'config', 'connection-manufacturer.yaml');
+    } else if (org == "ComponentSupplier") {
+        ccpPath = path.resolve(__dirname, '..', 'config', 'connection-componentsupplier.yaml');
+    } else if (org == "RawMaterialSupplier") {
+        ccpPath = path.resolve(__dirname, '..', 'config', 'connection-rawmaterialsupplier.yaml');
     } else
         return null
     const ccpJSON = fs.readFileSync(ccpPath, 'utf8')
-    const ccp = JSON.parse(ccpJSON);
+    const ccp = yaml.safeLoad(ccpJSON);
     return ccp
 }
 
 const getCaUrl = async (org, ccp) => {
     let caURL ;
-    if (org == "Org1") {
-        caURL = ccp.certificateAuthorities['ca.org1.example.com'].url;
-
-    } else if (org == "Org2") {
-        caURL = ccp.certificateAuthorities['ca.org2.example.com'].url;
+    if (org == "Customer") {
+        caURL = ccp.certificateAuthorities['ca.customer.ibo.com'].url;
+    } else if (org == "Manufacturer") {
+        caURL = ccp.certificateAuthorities['ca.manufacturer.ibo.com'].url;
+    } else if (org == "ComponentSupplier") {
+        caURL = ccp.certificateAuthorities['ca.componentsupplier.ibo.com'].url;
+    } else if (org == "RawMaterialSupplier") {
+        caURL = ccp.certificateAuthorities['ca.rawmaterialsupplier.ibo.com'].url;
     } else
         return null
     return caURL
@@ -39,20 +43,22 @@ const getCaUrl = async (org, ccp) => {
 
 const getWalletPath = async (org) => {
     let walletPath;
-    if (org == "Org1") {
-        walletPath = path.join(process.cwd(), 'org1-wallet');
-
-    } else if (org == "Org2") {
-        walletPath = path.join(process.cwd(), 'org2-wallet');
-    } else
+    if (org == "Customer") {
+        walletPath = path.join(process.cwd(), 'api-2.0/customer-wallet');
+    } else if (org == "Manufacturer") {
+        walletPath = path.join(process.cwd(), 'api-2.0/manufacturer-wallet');
+    } else if (org == "ComponentSupplier") {
+        walletPath = path.join(process.cwd(), 'api-2.0/componentsupplier-wallet');
+    } else if (org == "RawMaterialSupplier") {
+        walletPath = path.join(process.cwd(), 'api-2.0/rawmaterialsupplier-wallet');
+    }else
         return null
     return walletPath
 
 }
 
-
 const getAffiliation = async (org) => {
-    return org == "Org1" ? 'org1.department1' : 'org2.department1'
+    return org == "Customer" ? 'customer.department1' : 'manufaturer.department1'
 }
 
 const getRegisteredUser = async (username, userOrg, isJson) => {
@@ -90,7 +96,7 @@ const getRegisteredUser = async (username, userOrg, isJson) => {
     let secret;
     try {
         // Register the user, enroll the user, and import the new identity into the wallet.
-     secret = await ca.register({ affiliation: await getAffiliation(userOrg), enrollmentID: username, role: 'client' }, adminUser);
+     secret = await ca.register({  enrollmentID: username, role: 'client' }, adminUser);
     // const secret = await ca.register({ affiliation: 'org1.department1', enrollmentID: username, role: 'client', attrs: [{ name: 'role', value: 'approver', ecert: true }] }, adminUser);
 
     } catch (error) {
@@ -101,22 +107,22 @@ const getRegisteredUser = async (username, userOrg, isJson) => {
     // const enrollment = await ca.enroll({ enrollmentID: username, enrollmentSecret: secret, attr_reqs: [{ name: 'role', optional: false }] });
 
     let x509Identity;
-    if (userOrg == "Org1") {
+    if (userOrg == "Customer") {
         x509Identity = {
             credentials: {
                 certificate: enrollment.certificate,
                 privateKey: enrollment.key.toBytes(),
             },
-            mspId: 'Org1MSP',
+            mspId: 'CustomerMSP',
             type: 'X.509',
         };
-    } else if (userOrg == "Org2") {
+    } else if (userOrg == "Manufacturer") {
         x509Identity = {
             credentials: {
                 certificate: enrollment.certificate,
                 privateKey: enrollment.key.toBytes(),
             },
-            mspId: 'Org2MSP',
+            mspId: 'ManufacturerMSP',
             type: 'X.509',
         };
     }
@@ -134,12 +140,15 @@ const getRegisteredUser = async (username, userOrg, isJson) => {
 
 const getCaInfo = async (org, ccp) => {
     let caInfo
-    if (org == "Org1") {
-        caInfo = ccp.certificateAuthorities['ca.org1.example.com'];
-
-    } else if (org == "Org2") {
-        caInfo = ccp.certificateAuthorities['ca.org2.example.com'];
-    } else
+    if (org == "Customer") {
+        caInfo = ccp.certificateAuthorities['ca.customer.ibo.com'];
+    } else if (org == "Manufacturer") {
+        caInfo = ccp.certificateAuthorities['ca.manufacturer.ibo.com'];
+    } else if (org == "ComponentSupplier") {
+        caInfo = ccp.certificateAuthorities['ca.componentsupplier.ibo.com'];
+    } else if (org == "RawMaterialSupplier") {
+        caInfo = ccp.certificateAuthorities['ca.rawmaterialsupplier.ibo.com'];
+    }else
         return null
     return caInfo
 
@@ -170,24 +179,44 @@ const enrollAdmin = async (org, ccp) => {
         // Enroll the admin user, and import the new identity into the wallet.
         const enrollment = await ca.enroll({ enrollmentID: 'admin', enrollmentSecret: 'adminpw' });
         let x509Identity;
-        if (org == "Org1") {
+        if (org == "Customer") {
             x509Identity = {
                 credentials: {
                     certificate: enrollment.certificate,
                     privateKey: enrollment.key.toBytes(),
                 },
-                mspId: 'Org1MSP',
+                mspId: 'CustomerMSP',
                 type: 'X.509',
             };
-        } else if (org == "Org2") {
+        } else if (org == "Manufacturer") {
             x509Identity = {
                 credentials: {
                     certificate: enrollment.certificate,
                     privateKey: enrollment.key.toBytes(),
                 },
-                mspId: 'Org2MSP',
+                mspId: 'ManufacturerMSP',
                 type: 'X.509',
             };
+        } else if (org == "RawMaterialSupplier") {
+            x509Identity = {
+                credentials: {
+                    certificate: enrollment.certificate,
+                    privateKey: enrollment.key.toBytes(),
+                },
+                mspId: 'RawMaterialSupplierMSP',
+                type: 'X.509',
+            };
+    
+        } else if (org == "ComponentSupplier") {
+            x509Identity = {
+                credentials: {
+                    certificate: enrollment.certificate,
+                    privateKey: enrollment.key.toBytes(),
+                },
+                mspId: 'ComponentSupplierMSP',
+                type: 'X.509',
+            };
+    
         }
 
 
