@@ -3,153 +3,264 @@ x-type: "hlfv1"
 description: "Basic network"
 version: "1.0"
 channels:
-  mychannel:
+  order-details:
     orderers:
-      - orderer.example.com
+      - orderer.ibo.com
 
     peers:
-      peer0.org1.example.com:
+      peer0.customer.ibo.com:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
 
-      peer1.org1.example.com:
+      peer1.customer.ibo.com:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
 
-      peer0.org2.example.com:
+      peer0.manufacturer.ibo.com:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
 
-      peer1.org2.example.com:
+      peer1.manufacturer.ibo.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+      peer0.rawmaterialsupplier.ibo.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+      peer1.rawmaterialsupplier.ibo.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+      peer0.componentsupplier.ibo.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+      peer1.componentsupplier.ibo.com:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
 
     chaincodes:
-      - mycc:v0
+      - orderdetails:v1
 
 organizations:
-  Org1:
-    mspid: Org1MSP
+  Customer:
+    mspid: CustomerMSP
 
     peers:
-      - peer0.org1.example.com
-      - peer1.org1.example.com
+      - peer0.customer.ibo.com
+      - peer1.customer.ibo.com
 
     certificateAuthorities:
-      - ca.org1.example.com
+      - ca.customer.ibo.com
 
     adminPrivateKey:
-      path: ../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/priv_sk
+      path: ./artifacts/channel/crypto-config/peerOrganizations/customer.ibo.com/users/Admin@customer.ibo.com/msp/keystore/priv_sk
     signedCert:
-      path: ../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem
+      path: ./artifacts/channel/crypto-config/peerOrganizations/customer.ibo.com/users/Admin@customer.ibo.com/msp/signcerts/Admin@customer.ibo.com-cert.pem
 
-  Org2:
-    mspid: Org2MSP
+  Manufacturer:
+    mspid: ManufacturerMSP
 
     peers:
-      - peer0.org2.example.com
-      - peer1.org2.example.com
+      - peer0.manufacturer.ibo.com
+      - peer1.manufacturer.ibo.com
 
     certificateAuthorities:
-      - ca.org2.example.com
+      - ca.manufacturer.ibo.com
 
     adminPrivateKey:
-      path: ../artifacts/channel/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/priv_sk
+      path: ./artifacts/channel/crypto-config/peerOrganizations/manufacturer.ibo.com/users/Admin@manufacturer.ibo.com/msp/keystore/priv_sk
     signedCert:
-      path: ../artifacts/channel/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/Admin@org2.example.com-cert.pem
+      path: ./artifacts/channel/crypto-config/peerOrganizations/manufacturer.ibo.com/users/Admin@manufacturer.ibo.com/msp/signcerts/Admin@manufacturer.ibo.com-cert.pem
+
+  RawMaterialSupplier:
+    mspid: RawMaterialSupplierMSP
+
+    peers:
+      - peer0.rawmaterialsupplier.ibo.com
+      - peer1.rawmaterialsupplier.ibo.com
+
+    certificateAuthorities:
+      - ca.rawmaterialsupplier.ibo.com
+
+    adminPrivateKey:
+      path: ./artifacts/channel/crypto-config/peerOrganizations/rawmaterialsupplier.ibo.com/users/Admin@rawmaterialsupplier.ibo.com/msp/keystore/priv_sk
+    signedCert:
+      path: ./artifacts/channel/crypto-config/peerOrganizations/rawmaterialsupplier.ibo.com/users/Admin@rawmaterialsupplier.ibo.com/msp/signcerts/Admin@rawmaterialsupplier.ibo.com-cert.pem
+  
+  ComponentSupplier:
+    mspid: ComponentSupplierMSP
+
+    peers:
+      - peer0.componentsupplier.ibo.com
+      - peer1.componentsupplier.ibo.com
+
+    certificateAuthorities:
+      - ca.componentsupplier.ibo.com
+
+    adminPrivateKey:
+      path: ./artifacts/channel/crypto-config/peerOrganizations/componentsupplier.ibo.com/users/Admin@componentsupplier.ibo.com/msp/keystore/priv_sk
+    signedCert:
+      path: ./artifacts/channel/crypto-config/peerOrganizations/componentsupplier.ibo.com/users/Admin@componentsupplier.ibo.com/msp/signcerts/Admin@componentsupplier.ibo.com-cert.pem
 
 orderers:
-  orderer.example.com:
-    url: grpcs://localhost:7050
+  orderer.ibo.com:
+    url: grpcs://localhost:6050
     grpcOptions:
-      ssl-target-name-override: orderer.example.com
+      ssl-target-name-override: orderer.ibo.com
     tlsCACerts:
-      path: ../artifacts/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt
+      path: ../../artifacts/channel/crypto-config/ordererOrganizations/ibo.com/orderers/orderer.ibo.com/tls/ca.crt
 
-  orderer2.example.com:
-    url: grpcs://localhost:8050
-    grpcOptions:
-      ssl-target-name-override: orderer2.example.com
-    tlsCACerts:
-      path: ../artifacts/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/ca.crt
+  # orderer2.ibo.com:
+  #   url: grpcs://localhost:8050
+  #   grpcOptions:
+  #     ssl-target-name-override: orderer2.ibo.com
+  #   tlsCACerts:
+  #     path: ../artifacts/channel/crypto-config/ordererOrganizations/ibo.com/orderers/orderer2.ibo.com/tls/ca.crt
 
-  orderer3.example.com:
-    url: grpcs://localhost:9050
-    grpcOptions:
-      ssl-target-name-override: orderer3.example.com
-    tlsCACerts:
-      path: ../artifacts/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/ca.crt
+  # orderer3.ibo.com:
+  #   url: grpcs://localhost:9050
+  #   grpcOptions:
+  #     ssl-target-name-override: orderer3.ibo.com
+  #   tlsCACerts:
+  #     path: ../artifacts/channel/crypto-config/ordererOrganizations/ibo.com/orderers/orderer3.ibo.com/tls/ca.crt
 
 #
 # List of peers to send various requests to, including endorsement, query
 # and event listener registration.
 #
 peers:
-  peer0.org1.example.com:
+  peer0.customer.ibo.com:
+    url: grpcs://localhost:6051
+
+    grpcOptions:
+      ssl-target-name-override: peer0.customer.ibo.com
+    tlsCACerts:
+      path: ../../artifacts/channel/crypto-config/peerOrganizations/customer.ibo.com/peers/peer0.customer.ibo.com/tls/ca.crt
+
+  peer1.customer.ibo.com:
+    url: grpcs://localhost:6055
+
+    grpcOptions:
+      ssl-target-name-override: peer1.customer.ibo.com
+    tlsCACerts:
+      path: ../../artifacts/channel/crypto-config/peerOrganizations/customer.ibo.com/peers/peer1.customer.ibo.com/tls/ca.crt
+
+  peer0.manufacturer.ibo.com:
     url: grpcs://localhost:7051
 
     grpcOptions:
-      ssl-target-name-override: peer0.org1.example.com
+      ssl-target-name-override: peer0.manufacturer.ibo.com
     tlsCACerts:
-      path: ../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+      path: ../../artifacts/channel/crypto-config/peerOrganizations/manufacturer.ibo.com/peers/peer0.manufacturer.ibo.com/tls/ca.crt
 
-  peer1.org1.example.com:
-    url: grpcs://localhost:8051
+  peer1.manufacturer.ibo.com:
+    url: grpcs://localhost:7055
 
     grpcOptions:
-      ssl-target-name-override: peer1.org1.example.com
+      ssl-target-name-override: peer1.manufacturer.ibo.com
     tlsCACerts:
-      path: ../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/ca.crt
+      path: ../../artifacts/channel/crypto-config/peerOrganizations/manufacturer.ibo.com/peers/peer1.manufacturer.ibo.com/tls/ca.crt
 
-  peer0.org2.example.com:
+  peer0.componentsupplier.ibo.com:
     url: grpcs://localhost:9051
 
     grpcOptions:
-      ssl-target-name-override: peer0.org2.example.com
+      ssl-target-name-override: peer0.componentsupplier.ibo.com
     tlsCACerts:
-      path: ../artifacts/channel/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
+      path: ../../artifacts/channel/crypto-config/peerOrganizations/componentsupplier.ibo.com/peers/peer0.componentsupplier.ibo.com/tls/ca.crt
 
-  peer1.org2.example.com:
-    url: grpcs://localhost:10051
+  peer1.componentsupplier.ibo.com:
+    url: grpcs://localhost:9055
 
     grpcOptions:
-      ssl-target-name-override: peer1.org2.example.com
+      ssl-target-name-override: peer1.componentsupplier.ibo.com
     tlsCACerts:
-      path: ../artifacts/channel/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/ca.crt
+      path: ../../artifacts/channel/crypto-config/peerOrganizations/componentsupplier.ibo.com/peers/peer1.componentsupplier.ibo.com/tls/ca.crt
+
+  peer0.rawmaterialsupplier.ibo.com:
+    url: grpcs://localhost:8051
+
+    grpcOptions:
+      ssl-target-name-override: peer0.rawmaterialsupplier.ibo.com
+    tlsCACerts:
+      path: ../../artifacts/channel/crypto-config/peerOrganizations/rawmaterialsupplier.ibo.com/peers/peer0.rawmaterialsupplier.ibo.com/tls/ca.crt
+
+  peer1.rawmaterialsupplier.ibo.com:
+    url: grpcs://localhost:8055
+
+    grpcOptions:
+      ssl-target-name-override: peer1.rawmaterialsupplier.ibo.com
+    tlsCACerts:
+      path: ../../artifacts/channel/crypto-config/peerOrganizations/rawmaterialsupplier.ibo.com/peers/peer1.rawmaterialsupplier.ibo.com/tls/ca.crt
+
 #
 # Fabric-CA is a special kind of Certificate Authority provided by Hyperledger Fabric which allows
 # certificate management to be done via REST APIs. Application may choose to use a standard
 # Certificate Authority instead of Fabric-CA, in which case this section would not be specified.
 #
 certificateAuthorities:
-  ca.org1.example.com:
+  ca.customer.ibo.com:
+    url: https://localhost:6054
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      path: ./artifacts/channel/crypto-config/peerOrganizations/customer.ibo.com/ca/ca.customer.ibo.com-cert.pem
+
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw
+    caName: ca.customer.ibo.com
+
+  ca.manufacturer.ibo.com:
     url: https://localhost:7054
     httpOptions:
       verify: false
     tlsCACerts:
-      path: ../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem
+      path: ./artifacts/channel/crypto-config/peerOrganizations/manufacturer.ibo.com/ca/ca.manufacturer.ibo.com-cert.pem
 
     registrar:
       - enrollId: admin
         enrollSecret: adminpw
-    caName: ca.org1.example.com
+    caName: ca.manufacturer.ibo.com
 
-  ca.org2.example.com:
+  ca.rawmaterialsupplier.ibo.com:
     url: https://localhost:8054
     httpOptions:
       verify: false
     tlsCACerts:
-      path: ../artifacts/channel/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem
+      path: ./artifacts/channel/crypto-config/peerOrganizations/rawmaterialsupplier.ibo.com/ca/ca.rawmaterialsupplier.ibo.com-cert.pem
 
     registrar:
       - enrollId: admin
         enrollSecret: adminpw
-    caName: ca.org2.example.com
+    caName: ca.rawmaterialsupplier.ibo.com
+
+  ca.componentsupplier.ibo.com:
+    url: https://localhost:9054
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      path: ./artifacts/channel/crypto-config/peerOrganizations/componentsupplier.ibo.com/ca/ca.componentsupplier.ibo.com-cert.pem
+
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw
+    caName: ca.componentsupplier.ibo.com
