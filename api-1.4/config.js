@@ -12,7 +12,10 @@ else
 // indicate to the application where the setup file is located so it able
 // to have the hfc load it to initalize the fabric client instance
 hfc.setConfigSetting('network-connection-profile-path',path.join(__dirname, 'artifacts' ,file));
-hfc.setConfigSetting('Org1-connection-profile-path',path.join(__dirname, 'artifacts', 'org1.yaml'));
-hfc.setConfigSetting('Org2-connection-profile-path',path.join(__dirname, 'artifacts', 'org2.yaml'));
+hfc.setConfigSetting('Customer-connection-profile-path',path.join(__dirname, 'artifacts', 'customer.yaml'));
+hfc.setConfigSetting('Manufacturer-connection-profile-path',path.join(__dirname, 'artifacts', 'manufacturer.yaml'));
+hfc.setConfigSetting('RawMaterialSupplier-connection-profile-path',path.join(__dirname, 'artifacts', 'rawmaterialsupplier.yaml'));
+hfc.setConfigSetting('ComponentSupplier-connection-profile-path',path.join(__dirname, 'artifacts', 'componentsupplier.yaml'));
+
 // some other settings the application might need to know
 hfc.addConfigFile(path.join(__dirname, 'config.json'));
