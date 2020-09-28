@@ -1,0 +1,44 @@
+[
+    {
+        "transactionName": "productHistoryExists",
+        "transactionLabel": "A test productHistoryExists transaction",
+        "arguments": [
+            "001"
+        ],
+        "transientData": {}
+    },
+    {
+        "transactionName": "createProductHistory",
+        "transactionLabel": "A test createProductHistory transaction",
+        "arguments": [
+            "001",
+            "some value"
+        ],
+        "transientData": {}
+    },
+    {
+        "transactionName": "readProductHistory",
+        "transactionLabel": "A test readProductHistory transaction",
+        "arguments": [
+            "001"
+        ],
+        "transientData": {}
+    },
+    {
+        "transactionName": "updateProductHistory",
+        "transactionLabel": "A test updateProductHistory transaction",
+        "arguments": [
+            "001",
+            "some other value"
+        ],
+        "transientData": {}
+    },
+    {
+        "transactionName": "deleteProductHistory",
+        "transactionLabel": "A test deleteProductHistory transaction",
+        "arguments": [
+            "001"
+        ],
+        "transientData": {}
+    }
+]
