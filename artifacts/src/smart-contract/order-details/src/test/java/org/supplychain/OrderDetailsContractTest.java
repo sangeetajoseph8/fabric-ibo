@@ -2,7 +2,8 @@
  * SPDX-License-Identifier: Apache License 2.0
  */
 
-package org.example;
+package org.supplychain;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -17,8 +18,6 @@ import java.nio.charset.StandardCharsets;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-
 
 public final class OrderDetailsContractTest {
 
@@ -26,39 +25,39 @@ public final class OrderDetailsContractTest {
     class AssetExists {
         public void noProperAsset() {
 
-            OrderDetailsContract contract = new  OrderDetailsContract();
+            OrderDetailsContract contract = new OrderDetailsContract();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
 
             when(stub.getState("10001")).thenReturn(new byte[] {});
-            boolean result = contract.orderDetailsExists(ctx,"10001");
+            boolean result = contract.orderDetailsExists(ctx, "10001");
 
             assertFalse(result);
         }
 
         public void assetExists() {
 
-            OrderDetailsContract contract = new  OrderDetailsContract();
+            OrderDetailsContract contract = new OrderDetailsContract();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
 
-            when(stub.getState("10001")).thenReturn(new byte[] {42});
-            boolean result = contract.orderDetailsExists(ctx,"10001");
+            when(stub.getState("10001")).thenReturn(new byte[] { 42 });
+            boolean result = contract.orderDetailsExists(ctx, "10001");
 
             assertTrue(result);
 
         }
 
         public void noKey() {
-            OrderDetailsContract contract = new  OrderDetailsContract();
+            OrderDetailsContract contract = new OrderDetailsContract();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
 
             when(stub.getState("10002")).thenReturn(null);
-            boolean result = contract.orderDetailsExists(ctx,"10002");
+            boolean result = contract.orderDetailsExists(ctx, "10002");
 
             assertFalse(result);
 
@@ -70,20 +69,20 @@ public final class OrderDetailsContractTest {
     class AssetCreates {
 
         public void newAssetCreate() {
-            OrderDetailsContract contract = new  OrderDetailsContract();
+            OrderDetailsContract contract = new OrderDetailsContract();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
 
             String json = "{\"value\":\"TheOrderDetails\"}";
 
-            //contract.createOrderDetails(ctx, "10001", "TheOrderDetails");
+            // contract.createOrderDetails(ctx, "10001", "TheOrderDetails");
 
             verify(stub).putState("10001", json.getBytes(UTF_8));
         }
 
         public void alreadyExists() {
-            OrderDetailsContract contract = new  OrderDetailsContract();
+            OrderDetailsContract contract = new OrderDetailsContract();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
@@ -91,7 +90,7 @@ public final class OrderDetailsContractTest {
             when(stub.getState("10002")).thenReturn(new byte[] { 42 });
 
             Exception thrown = assertThrows(RuntimeException.class, () -> {
-                //contract.createOrderDetails(ctx, "10002", "TheOrderDetails");
+                // contract.createOrderDetails(ctx, "10002", "TheOrderDetails");
             });
 
             assertEquals(thrown.getMessage(), "The asset 10002 already exists");
@@ -101,38 +100,38 @@ public final class OrderDetailsContractTest {
     }
 
     public void assetRead() {
-        OrderDetailsContract contract = new  OrderDetailsContract();
+        OrderDetailsContract contract = new OrderDetailsContract();
         Context ctx = mock(Context.class);
         ChaincodeStub stub = mock(ChaincodeStub.class);
         when(ctx.getStub()).thenReturn(stub);
 
-        OrderDetails asset = new  OrderDetails();
-        //asset.setValue("Valuable");
+        OrderDetails asset = new OrderDetails();
+        // asset.setValue("Valuable");
 
         String json = asset.toJSONString();
         when(stub.getState("10001")).thenReturn(json.getBytes(StandardCharsets.UTF_8));
 
-        OrderDetails returnedAsset = contract.readOrderDetails(ctx, "10001");
-        //assertEquals(returnedAsset.getValue(), asset.getValue());
+        OrderDetails returnedAsset = contract.getOrderDetails(ctx, "10001");
+        // assertEquals(returnedAsset.getValue(), asset.getValue());
     }
 
     @Nested
     class AssetUpdates {
         public void updateExisting() {
-            OrderDetailsContract contract = new  OrderDetailsContract();
+            OrderDetailsContract contract = new OrderDetailsContract();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
             when(stub.getState("10001")).thenReturn(new byte[] { 42 });
 
-            //contract.updateOrderDetails(ctx, "10001", "updates");
+            // contract.updateOrderDetails(ctx, "10001", "updates");
 
             String json = "{\"value\":\"updates\"}";
             verify(stub).putState("10001", json.getBytes(UTF_8));
         }
 
         public void updateMissing() {
-            OrderDetailsContract contract = new  OrderDetailsContract();
+            OrderDetailsContract contract = new OrderDetailsContract();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
@@ -140,7 +139,7 @@ public final class OrderDetailsContractTest {
             when(stub.getState("10001")).thenReturn(null);
 
             Exception thrown = assertThrows(RuntimeException.class, () -> {
-                //contract.updateOrderDetails(ctx, "10001", "TheOrderDetails");
+                // contract.updateOrderDetails(ctx, "10001", "TheOrderDetails");
             });
 
             assertEquals(thrown.getMessage(), "The asset 10001 does not exist");
@@ -149,7 +148,7 @@ public final class OrderDetailsContractTest {
     }
 
     public void assetDelete() {
-        OrderDetailsContract contract = new  OrderDetailsContract();
+        OrderDetailsContract contract = new OrderDetailsContract();
         Context ctx = mock(Context.class);
         ChaincodeStub stub = mock(ChaincodeStub.class);
         when(ctx.getStub()).thenReturn(stub);
