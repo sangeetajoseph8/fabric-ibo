@@ -14,19 +14,7 @@ channels:
         ledgerQuery: true
         eventSource: true
 
-      peer1.customer.ibo.com:
-        endorsingPeer: true
-        chaincodeQuery: true
-        ledgerQuery: true
-        eventSource: true
-
       peer0.manufacturer.ibo.com:
-        endorsingPeer: true
-        chaincodeQuery: true
-        ledgerQuery: true
-        eventSource: true
-
-      peer1.manufacturer.ibo.com:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
@@ -38,13 +26,32 @@ channels:
         ledgerQuery: true
         eventSource: true
 
-      peer1.rawmaterialsupplier.ibo.com:
+      peer0.componentsupplier.ibo.com:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
 
-      peer0.componentsupplier.ibo.com:
+    chaincodes:
+      - orderdetails:v1
+  product-history:
+    orderers:
+      - orderer.ibo.com
+
+    peers:
+      peer1.customer.ibo.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+      peer1.manufacturer.ibo.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+      peer1.rawmaterialsupplier.ibo.com:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
@@ -57,7 +64,7 @@ channels:
         eventSource: true
 
     chaincodes:
-      - orderdetails:v1
+      - producthistory:v1
 
 organizations:
   Customer:
@@ -71,9 +78,9 @@ organizations:
       - ca.customer.ibo.com
 
     adminPrivateKey:
-      path: ./artifacts/channel/crypto-config/peerOrganizations/customer.ibo.com/users/Admin@customer.ibo.com/msp/keystore/priv_sk
+      path: ../artifacts/channel/crypto-config/peerOrganizations/customer.ibo.com/users/Admin@customer.ibo.com/msp/keystore/priv_sk
     signedCert:
-      path: ./artifacts/channel/crypto-config/peerOrganizations/customer.ibo.com/users/Admin@customer.ibo.com/msp/signcerts/Admin@customer.ibo.com-cert.pem
+      path: ../artifacts/channel/crypto-config/peerOrganizations/customer.ibo.com/users/Admin@customer.ibo.com/msp/signcerts/Admin@customer.ibo.com-cert.pem
 
   Manufacturer:
     mspid: ManufacturerMSP
@@ -86,9 +93,9 @@ organizations:
       - ca.manufacturer.ibo.com
 
     adminPrivateKey:
-      path: ./artifacts/channel/crypto-config/peerOrganizations/manufacturer.ibo.com/users/Admin@manufacturer.ibo.com/msp/keystore/priv_sk
+      path: ../artifacts/channel/crypto-config/peerOrganizations/manufacturer.ibo.com/users/Admin@manufacturer.ibo.com/msp/keystore/priv_sk
     signedCert:
-      path: ./artifacts/channel/crypto-config/peerOrganizations/manufacturer.ibo.com/users/Admin@manufacturer.ibo.com/msp/signcerts/Admin@manufacturer.ibo.com-cert.pem
+      path: ../artifacts/channel/crypto-config/peerOrganizations/manufacturer.ibo.com/users/Admin@manufacturer.ibo.com/msp/signcerts/Admin@manufacturer.ibo.com-cert.pem
 
   RawMaterialSupplier:
     mspid: RawMaterialSupplierMSP
@@ -101,9 +108,9 @@ organizations:
       - ca.rawmaterialsupplier.ibo.com
 
     adminPrivateKey:
-      path: ./artifacts/channel/crypto-config/peerOrganizations/rawmaterialsupplier.ibo.com/users/Admin@rawmaterialsupplier.ibo.com/msp/keystore/priv_sk
+      path: ../artifacts/channel/crypto-config/peerOrganizations/rawmaterialsupplier.ibo.com/users/Admin@rawmaterialsupplier.ibo.com/msp/keystore/priv_sk
     signedCert:
-      path: ./artifacts/channel/crypto-config/peerOrganizations/rawmaterialsupplier.ibo.com/users/Admin@rawmaterialsupplier.ibo.com/msp/signcerts/Admin@rawmaterialsupplier.ibo.com-cert.pem
+      path: ../artifacts/channel/crypto-config/peerOrganizations/rawmaterialsupplier.ibo.com/users/Admin@rawmaterialsupplier.ibo.com/msp/signcerts/Admin@rawmaterialsupplier.ibo.com-cert.pem
   
   ComponentSupplier:
     mspid: ComponentSupplierMSP
@@ -116,9 +123,9 @@ organizations:
       - ca.componentsupplier.ibo.com
 
     adminPrivateKey:
-      path: ./artifacts/channel/crypto-config/peerOrganizations/componentsupplier.ibo.com/users/Admin@componentsupplier.ibo.com/msp/keystore/priv_sk
+      path: ../artifacts/channel/crypto-config/peerOrganizations/componentsupplier.ibo.com/users/Admin@componentsupplier.ibo.com/msp/keystore/priv_sk
     signedCert:
-      path: ./artifacts/channel/crypto-config/peerOrganizations/componentsupplier.ibo.com/users/Admin@componentsupplier.ibo.com/msp/signcerts/Admin@componentsupplier.ibo.com-cert.pem
+      path: ../artifacts/channel/crypto-config/peerOrganizations/componentsupplier.ibo.com/users/Admin@componentsupplier.ibo.com/msp/signcerts/Admin@componentsupplier.ibo.com-cert.pem
 
 orderers:
   orderer.ibo.com:
@@ -153,7 +160,7 @@ peers:
     grpcOptions:
       ssl-target-name-override: peer0.customer.ibo.com
     tlsCACerts:
-      path: ../../artifacts/channel/crypto-config/peerOrganizations/customer.ibo.com/peers/peer0.customer.ibo.com/tls/ca.crt
+      path: ../artifacts/channel/crypto-config/peerOrganizations/customer.ibo.com/peers/peer0.customer.ibo.com/tls/ca.crt
 
   peer1.customer.ibo.com:
     url: grpcs://localhost:6055
@@ -161,7 +168,7 @@ peers:
     grpcOptions:
       ssl-target-name-override: peer1.customer.ibo.com
     tlsCACerts:
-      path: ../../artifacts/channel/crypto-config/peerOrganizations/customer.ibo.com/peers/peer1.customer.ibo.com/tls/ca.crt
+      path: ../artifacts/channel/crypto-config/peerOrganizations/customer.ibo.com/peers/peer1.customer.ibo.com/tls/ca.crt
 
   peer0.manufacturer.ibo.com:
     url: grpcs://localhost:7051
@@ -169,7 +176,7 @@ peers:
     grpcOptions:
       ssl-target-name-override: peer0.manufacturer.ibo.com
     tlsCACerts:
-      path: ../../artifacts/channel/crypto-config/peerOrganizations/manufacturer.ibo.com/peers/peer0.manufacturer.ibo.com/tls/ca.crt
+      path: ../artifacts/channel/crypto-config/peerOrganizations/manufacturer.ibo.com/peers/peer0.manufacturer.ibo.com/tls/ca.crt
 
   peer1.manufacturer.ibo.com:
     url: grpcs://localhost:7055
@@ -177,7 +184,7 @@ peers:
     grpcOptions:
       ssl-target-name-override: peer1.manufacturer.ibo.com
     tlsCACerts:
-      path: ../../artifacts/channel/crypto-config/peerOrganizations/manufacturer.ibo.com/peers/peer1.manufacturer.ibo.com/tls/ca.crt
+      path: ../artifacts/channel/crypto-config/peerOrganizations/manufacturer.ibo.com/peers/peer1.manufacturer.ibo.com/tls/ca.crt
 
   peer0.componentsupplier.ibo.com:
     url: grpcs://localhost:9051
@@ -185,7 +192,7 @@ peers:
     grpcOptions:
       ssl-target-name-override: peer0.componentsupplier.ibo.com
     tlsCACerts:
-      path: ../../artifacts/channel/crypto-config/peerOrganizations/componentsupplier.ibo.com/peers/peer0.componentsupplier.ibo.com/tls/ca.crt
+      path: ../artifacts/channel/crypto-config/peerOrganizations/componentsupplier.ibo.com/peers/peer0.componentsupplier.ibo.com/tls/ca.crt
 
   peer1.componentsupplier.ibo.com:
     url: grpcs://localhost:9055
@@ -193,7 +200,7 @@ peers:
     grpcOptions:
       ssl-target-name-override: peer1.componentsupplier.ibo.com
     tlsCACerts:
-      path: ../../artifacts/channel/crypto-config/peerOrganizations/componentsupplier.ibo.com/peers/peer1.componentsupplier.ibo.com/tls/ca.crt
+      path: ../artifacts/channel/crypto-config/peerOrganizations/componentsupplier.ibo.com/peers/peer1.componentsupplier.ibo.com/tls/ca.crt
 
   peer0.rawmaterialsupplier.ibo.com:
     url: grpcs://localhost:8051
@@ -201,7 +208,7 @@ peers:
     grpcOptions:
       ssl-target-name-override: peer0.rawmaterialsupplier.ibo.com
     tlsCACerts:
-      path: ../../artifacts/channel/crypto-config/peerOrganizations/rawmaterialsupplier.ibo.com/peers/peer0.rawmaterialsupplier.ibo.com/tls/ca.crt
+      path: ../artifacts/channel/crypto-config/peerOrganizations/rawmaterialsupplier.ibo.com/peers/peer0.rawmaterialsupplier.ibo.com/tls/ca.crt
 
   peer1.rawmaterialsupplier.ibo.com:
     url: grpcs://localhost:8055
@@ -209,7 +216,7 @@ peers:
     grpcOptions:
       ssl-target-name-override: peer1.rawmaterialsupplier.ibo.com
     tlsCACerts:
-      path: ../../artifacts/channel/crypto-config/peerOrganizations/rawmaterialsupplier.ibo.com/peers/peer1.rawmaterialsupplier.ibo.com/tls/ca.crt
+      path: ../artifacts/channel/crypto-config/peerOrganizations/rawmaterialsupplier.ibo.com/peers/peer1.rawmaterialsupplier.ibo.com/tls/ca.crt
 
 #
 # Fabric-CA is a special kind of Certificate Authority provided by Hyperledger Fabric which allows
@@ -222,7 +229,7 @@ certificateAuthorities:
     httpOptions:
       verify: false
     tlsCACerts:
-      path: ./artifacts/channel/crypto-config/peerOrganizations/customer.ibo.com/ca/ca.customer.ibo.com-cert.pem
+      path: ../artifacts/channel/crypto-config/peerOrganizations/customer.ibo.com/ca/ca.customer.ibo.com-cert.pem
 
     registrar:
       - enrollId: admin
@@ -234,7 +241,7 @@ certificateAuthorities:
     httpOptions:
       verify: false
     tlsCACerts:
-      path: ./artifacts/channel/crypto-config/peerOrganizations/manufacturer.ibo.com/ca/ca.manufacturer.ibo.com-cert.pem
+      path: ../artifacts/channel/crypto-config/peerOrganizations/manufacturer.ibo.com/ca/ca.manufacturer.ibo.com-cert.pem
 
     registrar:
       - enrollId: admin
@@ -246,7 +253,7 @@ certificateAuthorities:
     httpOptions:
       verify: false
     tlsCACerts:
-      path: ./artifacts/channel/crypto-config/peerOrganizations/rawmaterialsupplier.ibo.com/ca/ca.rawmaterialsupplier.ibo.com-cert.pem
+      path: ../artifacts/channel/crypto-config/peerOrganizations/rawmaterialsupplier.ibo.com/ca/ca.rawmaterialsupplier.ibo.com-cert.pem
 
     registrar:
       - enrollId: admin
@@ -258,7 +265,7 @@ certificateAuthorities:
     httpOptions:
       verify: false
     tlsCACerts:
-      path: ./artifacts/channel/crypto-config/peerOrganizations/componentsupplier.ibo.com/ca/ca.componentsupplier.ibo.com-cert.pem
+      path: ../artifacts/channel/crypto-config/peerOrganizations/componentsupplier.ibo.com/ca/ca.componentsupplier.ibo.com-cert.pem
 
     registrar:
       - enrollId: admin
