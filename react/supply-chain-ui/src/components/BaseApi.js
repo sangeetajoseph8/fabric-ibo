@@ -35,10 +35,11 @@ export default {
         });
     },
 
-    makeGetRequest(path, key, body, options = {}) {
+    makeGetRequest(path, key, body, options) {
         axiosInstance.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('authToken', "");
         axiosInstance.get(path, body).then(res => {
-            console.log(res)
+            console.log(res.data)
+            options(res.data)
         }).catch((err) => {
             console.log(err)
         });

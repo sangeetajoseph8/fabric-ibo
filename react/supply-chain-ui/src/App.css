@@ -41,6 +41,10 @@
   float: left;
 }
 
+.lable-right-align{
+  float: right;
+}
+
 .app-lable{
   margin: 0 0 .28571429rem 0;
   font-size: .92857143em;
@@ -54,4 +58,8 @@
 .app-field{
   margin: 0 0 1em;
    width: 50%
+}
+
+.app-margin-modal{
+    margin: 25px 25px;
 }

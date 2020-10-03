@@ -4,6 +4,7 @@ import './App.css';
 import RegisterUser from './components/RegisterUser';
 import CreateOrder from './components/create-order/CreateOrder';
 import { BrowserRouter, Route, Link, Router, Switch } from "react-router-dom";
+import ProductHistory from './components/product-history/ProductHistory';
 
 function App() {
   return (
@@ -11,8 +12,10 @@ function App() {
 
       <BrowserRouter>
         <Link exact to='/createOrder'>Click</Link>
+        <Link exact to='/productHistory'>Click 2</Link>
         <Route exact path="/" component={RegisterUser}></Route>
         <Route exact path="/createOrder" component={CreateOrder}></Route>
+        <Route exact path="/productHistory" component={ProductHistory}></Route>
       </BrowserRouter>
 
     </div>

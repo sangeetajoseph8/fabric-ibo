@@ -23,17 +23,23 @@ export default {
     API.registerUserGetAuthToken(path, key, userData, opt);
   },
 
-  createProductDetils(key, userData, options = {}) {
+  createProductDetils(key, userData, options) {
     const path = `/createOrderDetails`;
-    const opt = Object.assign({}, options, { handle422: true });
-    const data = {
-      "args": ["000132", "Customer", "Manufacturer", "{\"selector\":{\"docType\":\"asset\",\"owner\":\"tom\"}}", "First Order"]
-    }
-    API.makePostRequest(path, key, userData, opt);
+    API.makePostRequest(path, key, userData, options);
   },
 
   getProductDetails(key, orderId, options = {}) {
     const path = `/getOrderDetails/${orderId}`;
     API.makeGetRequest(path, key, '', options);
   },
+
+  getConnectionHistory(key, orderId, options) {
+    const path = `/productHistory?orderId=${orderId}`;
+    API.makeGetRequest(path, key, '', options);
+  },
+
+  createAccessRequestFromProductHistory(key, data, options) {
+    const path = `/createAccessRequest`;
+    options("successee")
+  }
 };
