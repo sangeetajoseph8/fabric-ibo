@@ -34,6 +34,7 @@ var hfc = require('fabric-client');
 var chaincodeApis = require('./app/chaincode-apis.js');
 var orderDetailsApis = require('./app/order-details-apis.js')
 var productHistoryApis = require('./app/product-history-apis.js')
+var accessRequestApis = require('./app/access-request-apis.js')
 
 var host = process.env.HOST || hfc.getConfigSetting('host');
 var port = process.env.PORT || hfc.getConfigSetting('port');
@@ -273,6 +274,26 @@ app.post('/createProductHistoryConnection', async function (req, res) {
 
 app.get('/productHistory', async function (req, res) {
 	productHistoryApis.fetchProductHistory(req, res)
+});
+
+app.post('/createAccessRequest', async function (req, res) {
+	accessRequestApis.createAccessRequest(req, res)
+});
+
+app.post('/deleteAccessRequest', async function (req, res) {
+	accessRequestApis.deleteAccessRequest(req, res)
+});
+
+app.get('/accessRequestExists', async function (req, res) {
+	accessRequestApis.checkIfAccessRequestExists(req, res)
+});
+
+app.get('/getAccessRequestsForApprovingOrg', async function (req, res) {
+	accessRequestApis.getAccessRequestListForApprovingOrg(req, res)
+});
+
+app.get('/getAccessRequestsForRequestingOrg', async function (req, res) {
+	accessRequestApis.getAccessRequestListForRequestingOrg(req, res)
 });
 
 
