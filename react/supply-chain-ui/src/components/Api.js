@@ -40,6 +40,26 @@ export default {
 
   createAccessRequestFromProductHistory(key, data, options) {
     const path = `/createAccessRequest`;
-    options("successee")
+    API.makePostRequest(path, key, data, options);
+  },
+
+  checkIfAccessRequestExists(orderId, approvingOrgName, options) {
+    const path = `/accessRequestExists?orderId=${orderId}&approvingOrgName=${approvingOrgName}`
+    API.makeGetRequest(path, '', '', options);
+  },
+
+  getAccessRequestForRequestingOrg(options) {
+    const path = `/getAccessRequestsForRequestingOrg`
+    API.makeGetRequest(path, '', '', options);
+  },
+
+  getAccessRequestsForApprovingOrg(options) {
+    const path = `/getAccessRequestsForApprovingOrg`
+    API.makeGetRequest(path, '', '', options);
+  },
+
+  deleteAccessRequest(data, options) {
+    const path = `/deleteAccessRequest`
+    API.makePostRequest(path, '', data, options);
   }
 };
