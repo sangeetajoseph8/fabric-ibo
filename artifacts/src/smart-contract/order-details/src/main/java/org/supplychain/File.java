@@ -1,7 +1,7 @@
 package org.supplychain;
 
 import com.google.gson.Gson;
-import jdk.nashorn.internal.objects.annotations.Property;
+import org.hyperledger.fabric.contract.annotation.Property;
 
 public class File {
     private final static Gson geson = new Gson();
@@ -27,10 +27,7 @@ public class File {
 
     @Override
     public String toString() {
-        return "File{" +
-                "name='" + name + '\'' +
-                ", hash='" + hash + '\'' +
-                '}';
+        return "File{" + "name='" + name + '\'' + ", hash='" + hash + '\'' + '}';
     }
 
     public String toJSONString() {
