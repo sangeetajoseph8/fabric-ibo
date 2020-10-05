@@ -11,8 +11,9 @@ var invoke = require('./invoke-transaction.js');
 
 function getErrorMessage(field) {
     var response = {
-        success: false,
-        message: field + ' field is missing or Invalid in the request'
+        result: null,
+        error: 'JSON Error',
+        errorData: field + ' field is missing or Invalid in the request'
     };
     return response;
 }
@@ -119,71 +120,116 @@ var updateOrderDetailsStatus = async function (req, res) {
 }
 
 var fetchAllOrdersByOrgName = async function (req, res) {
-    logger.debug('==================== QUERY BY CHAINCODE ==================');
+    try {
+        logger.debug('==================== QUERY BY CHAINCODE ==================');
 
-    let fcn = "getAllOrderForOrgName";
-    let orgName = req.query.orgName;
-    let pageSize = req.query.pageSize;
-    let bookmark = req.query.bookmark;
+        let fcn = "getAllOrderForOrgName";
+        let orgName = req.query.orgName;
+        let pageSize = req.query.pageSize;
+        let bookmark = req.query.bookmark;
 
-    if (!orgName) {
-        res.json(getErrorMessage('\'orgName\''));
-        return;
+        if (!orgName) {
+            res.json(getErrorMessage('\'orgName\''));
+            return;
+        }
+
+        if (!pageSize) {
+            pageSize = '20';
+        }
+
+        if (!bookmark) {
+            bookmark = ""
+        }
+
+        let args = [orgName, pageSize, bookmark]
+        let peer = 'peer0.' + req.orgname.toLowerCase() + '.ibo.com'
+
+        let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname);
+        const response_payload = {
+            result: message,
+            error: null,
+            errorData: null
+        }
+        res.send(response_payload);
+
+    } catch (error) {
+        const response_payload = {
+            result: null,
+            error: error.name,
+            errorData: error.message
+        }
+        res.send(response_payload)
     }
-
-    if (!pageSize) {
-        pageSize = 20;
-    }
-
-    if (!bookmark) {
-        bookmark = "10"
-    }
-
-    let args = [orgName, pageSize, bookmark]
-    let peer = 'peer0.' + req.orgname.toLowerCase() + '.ibo.com'
-
-    let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname);
-    res.send(message);
 }
 
 var fetchOrderByOrderId = async function (req, res) {
-    logger.debug('==================== QUERY BY CHAINCODE ==================');
+    try {
+        logger.debug('==================== QUERY BY CHAINCODE ==================');
 
-    let fcn = "getOrderDetails";
-    let orderId = req.query.orderId;
+        let fcn = "getOrderDetails";
+        let orderId = req.query.orderId;
 
-    if (!orderId) {
-        res.json(getErrorMessage('\'orderId\''));
-        return;
+        if (!orderId) {
+            res.json(getErrorMessage('\'orderId\''));
+            return;
+        }
+
+        let args = [orderId.replace(/'/g, '"')]
+        let peer = 'peer0.' + req.orgname.toLowerCase() + '.ibo.com'
+        let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname);
+        const response_payload = {
+            result: message,
+            error: null,
+            errorData: null
+        }
+        res.send(response_payload);
+
+    } catch (error) {
+        const response_payload = {
+            result: null,
+            error: error.name,
+            errorData: error.message
+        }
+        res.send(response_payload)
     }
-
-    let args = [orderId.replace(/'/g, '"')]
-    let peer = 'peer0.' + req.orgname.toLowerCase() + '.ibo.com'
-    let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname);
-    res.send(message);
 }
 
 var orderDetailsExists = async function (req, res) {
-    logger.debug('==================== QUERY BY CHAINCODE ==================');
+    try {
+        logger.debug('==================== QUERY BY CHAINCODE ==================');
 
-    let fcn = "orderDetailsExists";
-    let orderId = req.query.orderId;
+        let fcn = "orderDetailsExists";
+        let orderId = req.query.orderId;
 
-    if (!orderId) {
-        res.json(getErrorMessage('\'orderId\''));
-        return;
+        if (!orderId) {
+            res.json(getErrorMessage('\'orderId\''));
+            return;
+        }
+
+        let args = [orderId.replace(/'/g, '"')]
+        let peer = 'peer0.' + req.orgname.toLowerCase() + '.ibo.com'
+        let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname);
+
+        let response = {
+            success: true,
+            orderDetailsExists: message,
+            orderid: orderId
+        };
+        const response_payload = {
+            result: message,
+            error: null,
+            errorData: null
+        }
+        res.send(response_payload);
+
+    } catch (error) {
+        const response_payload = {
+            result: null,
+            error: error.name,
+            errorData: error.message
+        }
+        res.send(response_payload)
     }
-
-    let args = [orderId.replace(/'/g, '"')]
-    let peer = 'peer0.' + req.orgname.toLowerCase() + '.ibo.com'
-    let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname);
-
-    let response = {
-        success: true,
-        orderDetailsExists: message,
-        orderid: orderId
-    };
-    res.send(response);
 }
 
 exports.createOrderDetails = createOrderDetails;

@@ -8,6 +8,15 @@ const channelName = 'product-history'
 const chaincodeName = 'producthistory'
 const peers = ["peer1.customer.ibo.com", "peer1.manufacturer.ibo.com", "peer1.rawmaterialsupplier.ibo.com", "peer1.componentsupplier.ibo.com"]
 
+function getErrorMessage(field) {
+    var response = {
+        result: null,
+        error: 'JSON Error',
+        errorData: field + ' field is missing or Invalid in the request'
+    };
+    return response;
+}
+
 var createProductHistoryConnection = async function (req, res) {
     try {
         logger.debug('==================== INVOKE ON CHAINCODE ==================');
@@ -40,20 +49,36 @@ var createProductHistoryConnection = async function (req, res) {
 }
 
 var fetchProductHistory = async function (req, res) {
-    logger.debug('==================== QUERY BY CHAINCODE ==================');
+    try {
+        logger.debug('==================== QUERY BY CHAINCODE ==================');
 
-    let fcn = "getProductHistory";
-    let orderId = req.query.orderId;
+        let fcn = "getProductHistory";
+        let orderId = req.query.orderId;
 
-    if (!orderId) {
-        res.json(getErrorMessage('\'orderId\''));
-        return;
+        if (!orderId) {
+            res.json(getErrorMessage('\'orderId\''));
+            return;
+        }
+
+        let args = [orderId.replace(/'/g, '"')]
+        let peer = 'peer1.' + req.orgname.toLowerCase() + '.ibo.com'
+        let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname);
+
+        const response_payload = {
+            result: message,
+            error: null,
+            errorData: null
+        }
+        res.send(response_payload);
+
+    } catch (error) {
+        const response_payload = {
+            result: null,
+            error: error.name,
+            errorData: error.message
+        }
+        res.send(response_payload)
     }
-
-    let args = [orderId.replace(/'/g, '"')]
-    let peer = 'peer1.' + req.orgname.toLowerCase() + '.ibo.com'
-    let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname);
-    res.send(message);
 }
 
 exports.createProductHistoryConnection = createProductHistoryConnection;
