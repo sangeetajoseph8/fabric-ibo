@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Button, Form, Input, Segment, Header } from 'semantic-ui-react'
+import { Container, Button, Form, Segment, Header } from 'semantic-ui-react'
 import API from '../Api'
 
 export default class EnterConnections extends Component {

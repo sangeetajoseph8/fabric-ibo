@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Step, Container, Header, Segment, ItemImage } from 'semantic-ui-react'
+import { Step, Container, Header, Segment } from 'semantic-ui-react'
 import ProductHistoryStep from './ProductHistoryStep'
 import API from '../Api'
 

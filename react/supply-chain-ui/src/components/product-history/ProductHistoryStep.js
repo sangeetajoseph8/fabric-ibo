@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Step, Icon, Button, Card } from 'semantic-ui-react'
+import { Step, Icon, Card } from 'semantic-ui-react'
 import AccessRequestModal from './AccessRequestModal'
 
 export default class ProductHistoryStep extends Component {

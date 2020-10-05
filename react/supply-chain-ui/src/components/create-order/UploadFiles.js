@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Button, Form, Input, Header, Segment } from 'semantic-ui-react'
+import { Container, Button, Form, Header, Segment } from 'semantic-ui-react'
 
 export default class UploadFiles extends Component {
     saveAndContinue = (e) => {
