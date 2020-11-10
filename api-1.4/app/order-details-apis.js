@@ -21,8 +21,10 @@ function getErrorMessage(field) {
 var createOrderDetails = async function (req, res) {
     try {
         logger.debug('==================== INVOKE ON CHAINCODE ==================');
-        var fcn = 'createOrderDetails'
+        logger.debug(orderDetails);
+        var fcn = 'createOrder'
         var orderDetails = req.body;
+        logger.debug(req);
         if (!orderDetails.orderId || !orderDetails.orderType || !orderDetails.orderDate) {
             res.json(getErrorMessage('\'orderId or orderType or orderDate\''));
             return;
@@ -30,8 +32,23 @@ var createOrderDetails = async function (req, res) {
         orderDetails.initiatorOrgName = req.orgname;
         orderDetails.orderLastUpdatedByOrgName = req.orgname;
 
+        if (orderDetails.comment) {
+            orderDetails.commentList = [
+                {
+                    commentString: orderDetails.comment,
+                    publishedDate: new Date(),
+                    orgName: req.orgname,
+                    userName: req.username
+                }
+            ]
+        }
+
+        logger.debug("Order Details" + orderDetails);
+        var data = {
+            order: Buffer.from(JSON.stringify(orderDetails))
+        }
         const start = Date.now();
-        let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, [JSON.stringify(orderDetails)], req.username, req.orgname);
+        let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, [], req.username, req.orgname, data);
         const latency = Date.now() - start;
 
         const response_payload = {
@@ -62,8 +79,12 @@ var updateOrderDetails = async function (req, res) {
         }
         orderDetails.orderLastUpdatedByOrgName = req.orgname;
 
+        var data = {
+            order: Buffer.from(JSON.stringify(orderDetails))
+        }
+
         const start = Date.now();
-        let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, [JSON.stringify(orderDetails)], req.username, req.orgname);
+        let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, [], req.username, req.orgname, data);
         const latency = Date.now() - start;
 
         const response_payload = {
@@ -86,20 +107,58 @@ var updateOrderDetails = async function (req, res) {
 var updateOrderDetailsStatus = async function (req, res) {
     try {
         logger.debug('==================== INVOKE ON CHAINCODE ==================');
-        var fcn = 'updateOrderDetails'
+        var fcn = 'approveOrderStatus'
         var orderDetails = req.body;
         if (!orderDetails.orderId) {
             res.json(getErrorMessage('\'orderId\''));
             return;
         }
-        if (!orderDetails.orderStatus || !(orderDetails == "APPROVED" || orderDetails == "REJECTED")) {
+        if (orderDetails.orderStatus === null || orderDetails.orderStatus === '' || !(orderDetails.orderStatus == "APPROVED" || orderDetails.orderStatus == "REJECTED")) {
             res.json(getErrorMessage('\'orderStatus\''));
             return;
         }
-
-        const args = [orderDetails.orderId, req.orgname, orderDetails.comment, orderDetails.orderStatus]
         const start = Date.now();
-        let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, [JSON.stringify(orderDetails)], req.username, req.orgname);
+
+        var data = {
+            orderId: Buffer.from(orderDetails.orderId),
+            orgName: Buffer.from(req.orgname),
+            userName: Buffer.from(req.username),
+            approvalStatus: Buffer.from(orderDetails.orderStatus),
+            comment: Buffer.from(orderDetails.comment)
+        }
+        let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, [], req.username, req.orgname, data);
+        const latency = Date.now() - start;
+
+        const response_payload = {
+            result: message,
+            error: null,
+            errorData: null
+        }
+        res.send(response_payload);
+
+    } catch (error) {
+        const response_payload = {
+            result: null,
+            error: error.name,
+            errorData: error.message
+        }
+        res.send(response_payload)
+    }
+}
+
+var deleteOrderDetails = async function (req, res) {
+    try {
+        logger.debug('==================== INVOKE ON CHAINCODE ==================');
+        var fcn = 'deleteOrderDetails'
+        var orderDetails = req.body;
+        if (!orderDetails.orderId) {
+            res.json(getErrorMessage('\'orderId\''));
+            return;
+        }
+
+        const args = [orderDetails.orderId]
+        const start = Date.now();
+        let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, args, req.username, req.orgname);
         const latency = Date.now() - start;
 
         const response_payload = {
@@ -124,24 +183,14 @@ var fetchAllOrdersByOrgName = async function (req, res) {
         logger.debug('==================== QUERY BY CHAINCODE ==================');
 
         let fcn = "getAllOrderForOrgName";
-        let orgName = req.query.orgName;
-        let pageSize = req.query.pageSize;
-        let bookmark = req.query.bookmark;
+        let orgName = req.orgname;
 
         if (!orgName) {
             res.json(getErrorMessage('\'orgName\''));
             return;
         }
 
-        if (!pageSize) {
-            pageSize = '20';
-        }
-
-        if (!bookmark) {
-            bookmark = ""
-        }
-
-        let args = [orgName, pageSize, bookmark]
+        let args = [orgName]
         let peer = 'peer0.' + req.orgname.toLowerCase() + '.ibo.com'
 
         let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname);
@@ -174,7 +223,7 @@ var fetchOrderByOrderId = async function (req, res) {
             return;
         }
 
-        let args = [orderId.replace(/'/g, '"')]
+        let args = [orderId.replace(/'/g, '"'), req.orgname]
         let peer = 'peer0.' + req.orgname.toLowerCase() + '.ibo.com'
         let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname);
         const response_payload = {
@@ -206,7 +255,7 @@ var orderDetailsExists = async function (req, res) {
             return;
         }
 
-        let args = [orderId.replace(/'/g, '"')]
+        let args = [orderId.replace(/'/g, '"'), req.orgname]
         let peer = 'peer0.' + req.orgname.toLowerCase() + '.ibo.com'
         let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname);
 
@@ -238,3 +287,4 @@ exports.updateOrderDetailsStatus = updateOrderDetailsStatus;
 exports.fetchAllOrdersByOrgName = fetchAllOrdersByOrgName;
 exports.orderDetailsExists = orderDetailsExists;
 exports.fetchOrderByOrderId = fetchOrderByOrderId;
+exports.deleteOrderDetails = deleteOrderDetails;

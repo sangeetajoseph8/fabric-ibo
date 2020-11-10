@@ -20,7 +20,7 @@ var helper = require('./helper.js');
 var logger = helper.getLogger('invoke-chaincode');
 
 
-var invokeChaincode = async function (peerNames, channelName, chaincodeName, fcn, args, username, org_name) {
+var invokeChaincode = async function (peerNames, channelName, chaincodeName, fcn, args, username, org_name, transient_data) {
 	logger.debug(util.format('\n============ invoke transaction on channel %s ============\n', channelName));
 	var error_message = null;
 	var tx_id_string = null;
@@ -46,7 +46,8 @@ var invokeChaincode = async function (peerNames, channelName, chaincodeName, fcn
 			fcn: fcn,
 			args: args,
 			chainId: channelName,
-			txId: tx_id
+			txId: tx_id,
+			transientMap: transient_data
 		};
 
 		let results = await channel.sendTransactionProposal(request);

@@ -256,11 +256,15 @@ app.post('/updateOrderDetailsStatus', async function (req, res) {
 	orderDetailsApis.updateOrderDetailsStatus(req, res)
 });
 
-app.get('/ordersByOrgName', async function (req, res) {
+app.post('/deleteOrderDetails', async function (req, res) {
+	orderDetailsApis.deleteOrderDetails(req, res)
+});
+
+app.get('/getAllCreatedOrders', async function (req, res) {
 	orderDetailsApis.fetchAllOrdersByOrgName(req, res)
 });
 
-app.get('/ordersByOrderId', async function (req, res) {
+app.get('/orderDetailsByOrderId', async function (req, res) {
 	orderDetailsApis.fetchOrderByOrderId(req, res)
 });
 
