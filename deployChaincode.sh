@@ -86,7 +86,7 @@ setGlobalsForPeer1ComponentSupplier(){
 
 presetup() {
     echo Building Java dependencies ...
-    pushd ./artifacts/src/smart-contract/order-details
+    pushd ./artifacts/src/smart-contract/order-pdc
     ./gradlew build
     popd
     pushd ./artifacts/src/smart-contract/product-history
@@ -98,7 +98,7 @@ presetup() {
 
 CC_RUNTIME_LANGUAGE="java"
 VERSION_1="1"
-CC_SRC_PATH_1="./artifacts/src/smart-contract/order-details"
+CC_SRC_PATH_1="./artifacts/src/smart-contract/order-pdc"
 CC_NAME_1="orderdetails"
 
 VERSION_2="1"
@@ -123,7 +123,7 @@ packageChaincode_2() {
         --path ${CC_SRC_PATH_2} --lang ${CC_RUNTIME_LANGUAGE} \
         --label ${CC_NAME_2}_${VERSION_2}
 
-    echo "===================== Chaincode 2 is packaged on peer0.customer ===================== "
+    echo "===================== Chaincode 2 is packaged on peer1.customer ===================== "
 }
 # packageChaincode
 
@@ -148,19 +148,19 @@ installChaincode_1() {
 installChaincode_2() {
     setGlobalsForPeer1Customer
     peer lifecycle chaincode install ${CC_NAME_2}.tar.gz
-    echo "===================== Order Details Chaincode is installed on peer0.customer ===================== "
+    echo "===================== Order Details Chaincode is installed on peer1.customer ===================== "
 
     setGlobalsForPeer1Manufacturer
     peer lifecycle chaincode install ${CC_NAME_2}.tar.gz
-    echo "===================== Order Details Chaincode is installed on peer0.manufacturer ===================== "
+    echo "===================== Order Details Chaincode is installed on peer1.manufacturer ===================== "
 
     setGlobalsForPeer1RawMaterialSupplier
     peer lifecycle chaincode install ${CC_NAME_2}.tar.gz
-    echo "===================== Order Details Chaincode is installed on peer0.rawMaterialsupplier ===================== "
+    echo "===================== Order Details Chaincode is installed on peer1.rawMaterialsupplier ===================== "
     
     setGlobalsForPeer1ComponentSupplier
     peer lifecycle chaincode install ${CC_NAME_2}.tar.gz
-    echo "===================== Order Details Chaincode is installed on peer0.componentsupplier ===================== "
+    echo "===================== Order Details Chaincode is installed on peer1.componentsupplier ===================== "
 }
 
 # installChaincode
@@ -188,6 +188,7 @@ queryInstalled_2() {
 checkCommitReadyness_1() {
     setGlobalsForPeer0Customer
     peer lifecycle chaincode checkcommitreadiness \
+        --collections-config $PRIVATE_DATA_CONFIG \
         --channelID ${CHANNEL_NAME_1} --name ${CC_NAME_1} --version ${VERSION_1} \
         --sequence ${VERSION_1} --output json 
     echo "===================== checking commit readyness from org 1 ===================== "
@@ -198,7 +199,7 @@ checkCommitReadyness_2() {
     peer lifecycle chaincode checkcommitreadiness \
         --channelID $CHANNEL_NAME_2 --name ${CC_NAME_2} --version ${VERSION_2} \
         --sequence ${VERSION_2} --output json 
-    echo "===================== checking commit readyness from org 1 ===================== "
+    echo "===================== checking commit readyness from org 2 ===================== "
 }
 # checkCommitReadyness
 
@@ -389,6 +390,31 @@ chaincodeQuery() {
     peer chaincode query -C $CHANNEL_NAME_1 -n ${CC_NAME_1} -c '{"function": "getAllOrderForOrgName","Args":["Customer","5","1"]}'
 }
 
+#Add private Data
+
+## Add private data
+addPrivateData() {
+    setGlobalsForPeer0Manufacturer
+    export ORDER=$(echo -n "{\"orderId\":\"11122\",\"initiatorOrgName\":\"Customer\",\"payload\":\"dffedfs\"}" | base64 | tr -d \\n)
+    peer chaincode invoke -o localhost:6050 \
+        --ordererTLSHostnameOverride orderer.ibo.com \
+        --tls $CORE_PEER_TLS_ENABLED \
+        --cafile $ORDERER_CA \
+        -C $CHANNEL_NAME_1 -n ${CC_NAME_1}  \
+        --peerAddresses localhost:6051 --tlsRootCertFiles $PEER0_CUSTOMER_CA \
+        --peerAddresses localhost:7051 --tlsRootCertFiles $PEER0_MANUFACTURER_CA \
+        --peerAddresses localhost:8051 --tlsRootCertFiles $PEER0_RAWMATERIAL_SUPPLIER_CA \
+        --peerAddresses localhost:9051 --tlsRootCertFiles $PEER0_COMPONENT_SUPPLIER_CA \
+        -c '{"function": "updateOrderDetails", "Args":[]}' \
+         --transient "{\"order\":\"$ORDER\"}"
+
+}
+
+#Query
+query(){
+    setGlobalsForPeer0Customer
+    peer chaincode query -C $CHANNEL_NAME_1 -n ${CC_NAME_1} -c '{"function": "getAllOrderForOrgName","Args":["Customer"]}'
+}
 
 # Run this function if you add any new dependency in chaincode
 #presetup
@@ -409,6 +435,7 @@ queryCommitted_1
 
 chaincodeInvokeInit_1
 
+
 packageChaincode_2
 installChaincode_2
 queryInstalled_2
@@ -424,3 +451,7 @@ queryCommitted_2
 
 chaincodeInvokeInit_2
 
+
+
+#addPrivateData
+#query
