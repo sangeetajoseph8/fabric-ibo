@@ -50,9 +50,13 @@ public class OrderDetailsContract implements ContractInterface {
         }
         asset.setLastUpdated(new Date().toString());
         asset.setPublishedDate(new Date().toString());
-        asset.setInitiatorOrgApprovalStatus(OrderStatus.PENDING);
+
         if (asset.getApproverOrgName() != null && !asset.getApproverOrgName().isEmpty()) {
+            asset.setInitiatorOrgApprovalStatus(OrderStatus.PENDING);
             asset.setApproverOrgApprovalStatus(OrderStatus.PENDING);
+            asset.setApprovalNeededForOrg(asset.getApproverOrgName());
+        } else {
+            asset.setInitiatorOrgApprovalStatus(OrderStatus.NOT_NEEDED);
         }
         ctx.getStub().putState(asset.getOrderId(), asset.toJSONString().getBytes(UTF_8));
 
@@ -62,7 +66,7 @@ public class OrderDetailsContract implements ContractInterface {
     public OrderDetails getOrderDetails(Context ctx, String orderDetailsId) {
         boolean exists = orderDetailsExists(ctx, orderDetailsId);
         if (!exists) {
-            return null;
+            return new OrderDetails();
         }
         return OrderDetails.fromJSONString(new String(ctx.getStub().getState(orderDetailsId), UTF_8));
     }
@@ -71,17 +75,20 @@ public class OrderDetailsContract implements ContractInterface {
     public void updateOrderDetails(Context ctx, String orderDetailsJson) {
         OrderDetails updatedAsset = OrderDetails.fromJSONString(orderDetailsJson);
         checkIfOrderExist(ctx, updatedAsset.getOrderId());
-
         if (!checkIfOrgCanUpdateOrder(updatedAsset, updatedAsset.getOrderLastUpdatedByOrgName())) {
             throw new RuntimeException("Invalid Access");
         }
-        updatedAsset.setLastUpdated(new Date().toString());
-
-        if (updatedAsset.getOrderLastUpdatedByOrgName().equals(updatedAsset.getApproverOrgName())) {
-            updatedAsset.setInitiatorOrgApprovalStatus(OrderStatus.PENDING);
-        } else if (updatedAsset.getOrderLastUpdatedByOrgName().equals(updatedAsset.getInitiatorOrgName())) {
-            updatedAsset.setApproverOrgApprovalStatus(OrderStatus.PENDING);
+        //Set the approval org name to the org that needs to approve the updates
+        if (updatedAsset.getApproverOrgName() != null && !updatedAsset.getApproverOrgName().isEmpty()) {
+            if (updatedAsset.getOrderLastUpdatedByOrgName().equals(updatedAsset.getInitiatorOrgName())) {
+                updatedAsset.setApprovalNeededForOrg(updatedAsset.getApproverOrgName());
+                updatedAsset.setApproverOrgApprovalStatus(OrderStatus.PENDING);
+            } else {
+                updatedAsset.setApprovalNeededForOrg(updatedAsset.getInitiatorOrgName());
+                updatedAsset.setInitiatorOrgApprovalStatus(OrderStatus.PENDING);
+            }
         }
+        updatedAsset.setLastUpdated(new Date().toString());
         ctx.getStub().putState(updatedAsset.getOrderId(), updatedAsset.toJSONString().getBytes(UTF_8));
     }
 
@@ -95,8 +102,8 @@ public class OrderDetailsContract implements ContractInterface {
     }
 
     @Transaction()
-    public void approveOrderStatus(Context ctx, String orderId, String orderStatusUpdatedByOrgName, String comment,
-            String approvalStatus) {
+    public void approveOrderStatus(Context ctx, String orderId, String orderStatusUpdatedByOrgName, String userName, String comment,
+                                   String approvalStatus) {
         checkIfOrderExist(ctx, orderId);
         OrderDetails asset = OrderDetails.fromJSONString(new String(ctx.getStub().getState(orderId), UTF_8));
         if (!checkIfOrgCanUpdateOrder(asset, orderStatusUpdatedByOrgName)) {
@@ -105,9 +112,10 @@ public class OrderDetailsContract implements ContractInterface {
         if (approvalStatus.equals(OrderStatus.APPROVED.name()) || approvalStatus.equals(OrderStatus.REJECTED.name())) {
             if (asset.hasInitiatorLastUpdateTheOrderDetails() && asset.isApproverOrg(orderStatusUpdatedByOrgName)) {
                 asset.setApproverOrgApprovalStatus(OrderStatus.valueOf(approvalStatus));
-            } else if (asset.hasApproverLastUpdateTheOrderDetails()
-                    && asset.isInitiatorOrg(orderStatusUpdatedByOrgName)) {
+                asset.setApprovalNeededForOrg(asset.getInitiatorOrgName());
+            } else if (asset.hasApproverLastUpdateTheOrderDetails() && asset.isInitiatorOrg(orderStatusUpdatedByOrgName)) {
                 asset.setInitiatorOrgApprovalStatus(OrderStatus.valueOf(approvalStatus));
+                asset.setApprovalNeededForOrg(asset.getApproverOrgName());
             } else {
                 throw new RuntimeException("Invalid Org");
             }
@@ -117,9 +125,15 @@ public class OrderDetailsContract implements ContractInterface {
 
         asset.setOrderLastUpdatedByOrgName(orderStatusUpdatedByOrgName);
         asset.setLastUpdated(new Date().toString());
+
         if (comment != null && !comment.isEmpty()) {
+            Comment commentObj = new Comment(comment, new Date().toString(),orderStatusUpdatedByOrgName,userName);
             List<Comment> comments = asset.getCommentList();
-            comments.add(new Comment(comment, new Date().toString()));
+            if(comments == null){
+                comments = new ArrayList<>();
+            }
+            comments.add(commentObj);
+            asset.setCommentList(comments);
         }
 
         ctx.getStub().putState(orderId, asset.toJSONString().getBytes(UTF_8));
@@ -140,6 +154,37 @@ public class OrderDetailsContract implements ContractInterface {
         return data;
     }
 
+    @Transaction()
+    public OrderDetailsList getAllOrderThatNeedApproval(Context ctx, String orgName, int pageSize, String bookmark) {
+        QueryResultsIteratorWithMetadata<KeyValue> queryResultIterator = ctx.getStub().getQueryResultWithPagination(
+                String.valueOf("{\"selector\":{\"approvalNeededForOrg\":\"" + orgName + "\"}}"), pageSize, bookmark);
+        OrderDetailsList data = new OrderDetailsList();
+        List<OrderDetails> orderDetailsList = new ArrayList<>();
+        for (KeyValue kv : queryResultIterator) {
+            logger.info(OrderDetails.fromJSONString(new String(kv.getValue(), UTF_8)).toJSONString());
+            orderDetailsList.add(OrderDetails.fromJSONString(new String(kv.getValue(), UTF_8)));
+        }
+        System.out.println(orderDetailsList.toString());
+        data.setOrders(orderDetailsList);
+        return data;
+    }
+
+    @Transaction()
+    public OrderDetailsList getAllOrderAsApproverOrg(Context ctx, String orgName, int pageSize, String bookmark) {
+        QueryResultsIteratorWithMetadata<KeyValue> queryResultIterator = ctx.getStub().getQueryResultWithPagination(
+                String.valueOf("{\"selector\":{\"approverOrgName\":\"" + orgName + "\"}}"), pageSize, bookmark);
+        OrderDetailsList data = new OrderDetailsList();
+        List<OrderDetails> orderDetailsList = new ArrayList<>();
+        for (KeyValue kv : queryResultIterator) {
+            logger.info(OrderDetails.fromJSONString(new String(kv.getValue(), UTF_8)).toJSONString());
+            orderDetailsList.add(OrderDetails.fromJSONString(new String(kv.getValue(), UTF_8)));
+        }
+        System.out.println(orderDetailsList.toString());
+        data.setOrders(orderDetailsList);
+        return data;
+    }
+
+
     private void checkIfOrderExist(Context ctx, String orderId) {
         boolean exists = orderDetailsExists(ctx, orderId);
         if (!exists) {
@@ -147,7 +192,7 @@ public class OrderDetailsContract implements ContractInterface {
         }
     }
 
-    public boolean checkIfOrgCanUpdateOrder(OrderDetails asset, String orderDetailsUpdatedByOrgName) {
+    private boolean checkIfOrgCanUpdateOrder(OrderDetails asset, String orderDetailsUpdatedByOrgName) {
         return asset.getApproverOrgName().equals(orderDetailsUpdatedByOrgName)
                 || asset.getInitiatorOrgName().equals(orderDetailsUpdatedByOrgName);
     }

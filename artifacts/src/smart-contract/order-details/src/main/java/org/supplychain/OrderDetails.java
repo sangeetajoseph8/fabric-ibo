@@ -54,6 +54,28 @@ public class OrderDetails {
     @Property
     private String orderDate;
 
+    @Property
+    private String approvalNeededForOrg;
+
+    @Property
+    private List<String> connectedOrderIds;
+
+    public String getApprovalNeededForOrg() {
+        return approvalNeededForOrg;
+    }
+
+    public void setApprovalNeededForOrg(String approvalNeededForOrg) {
+        this.approvalNeededForOrg = approvalNeededForOrg;
+    }
+
+    public List<String> getConnectedOrderIds() {
+        return connectedOrderIds;
+    }
+
+    public void setConnectedOrderIds(List<String> connectedOrderIds) {
+        this.connectedOrderIds = connectedOrderIds;
+    }
+
     public void setInitiatorOrgApprovalStatus(String initiatorOrgApprovalStatus) {
         this.initiatorOrgApprovalStatus = initiatorOrgApprovalStatus;
     }
@@ -210,6 +232,8 @@ public class OrderDetails {
                 ", orderType='" + orderType + '\'' +
                 ", fileList=" + fileList +
                 ", orderDate='" + orderDate + '\'' +
+                ", approvalNeededForOrgName='" + approvalNeededForOrg + '\'' +
+                ", connectedOrderIds=" + connectedOrderIds +
                 '}';
     }
 }

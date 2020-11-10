@@ -9,10 +9,11 @@ import org.hyperledger.fabric.contract.annotation.Property;
 public class Comment {
 
     private final static Gson geson = new Gson();
-
-    public Comment(String commentString, String publishedDate) {
+    public Comment(String commentString, String publishedDate, String orgName, String userName) {
         this.commentString = commentString;
         this.publishedDate = publishedDate;
+        this.orgName = orgName;
+        this.userName = userName;
     }
 
     @Property
@@ -20,6 +21,20 @@ public class Comment {
 
     @Property
     private String publishedDate;
+
+    @Property
+    private String orgName;
+
+    @Property
+    private String userName;
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
 
     public String getPublishedDate() {
         return publishedDate;
@@ -47,6 +62,11 @@ public class Comment {
 
     @Override
     public String toString() {
-        return "Comment{" + "commentString='" + commentString + '\'' + ", publishedDate=" + publishedDate + '}';
+        return "Comment{" +
+                "commentString='" + commentString + '\'' +
+                ", publishedDate='" + publishedDate + '\'' +
+                ", orgName='" + orgName + '\'' +
+                ", userName='" + userName + '\'' +
+                '}';
     }
 }
