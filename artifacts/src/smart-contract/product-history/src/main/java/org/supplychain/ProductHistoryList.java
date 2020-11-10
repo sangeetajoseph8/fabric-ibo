@@ -11,14 +11,14 @@ public class ProductHistoryList {
     private final static Gson geson = new Gson();
 
     @Property()
-    List<ProductHistory> productHistories;
+    List<OrderDetails> productHistory;
 
-    public List<ProductHistory> getProductHistories() {
-        return productHistories;
+    public List<OrderDetails> getProductHistory() {
+        return productHistory;
     }
 
-    public void setProductHistories(List<ProductHistory> productHistories) {
-        this.productHistories = productHistories;
+    public void setProductHistory(List<OrderDetails> productHistory) {
+        this.productHistory = productHistory;
     }
 
     public String toJSONString() {
@@ -33,7 +33,7 @@ public class ProductHistoryList {
     @Override
     public String toString() {
         return "ProductHistoryList{" +
-                "productHistories=" + productHistories +
+                "productHistories=" + productHistory +
                 '}';
     }
 }

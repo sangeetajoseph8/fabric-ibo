@@ -9,7 +9,7 @@ import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
 @DataType()
-public class ProductHistory {
+public class OrderDetails {
 
     private final static Gson geson = new Gson();
 
@@ -25,15 +25,11 @@ public class ProductHistory {
     @Property()
     private String orderType;   
 
-    public ProductHistory(String orderId, String orgName, String orderDate, String orderType) {
+    public OrderDetails(String orderId, String orgName, String orderDate, String orderType) {
         this.orderId = orderId;
         this.orgName = orgName;
         this.orderDate = orderDate;
         this.orderType = orderType;
-    }
-
-    public static Gson getGeson() {
-        return geson;
     }
 
     public String getOrderId() {
@@ -67,14 +63,14 @@ public class ProductHistory {
         return geson.toJson(this);
     }
 
-    public static ProductHistory fromJSONString(String json) {
-        ProductHistory asset = geson.fromJson(json, ProductHistory.class);
+    public static OrderDetails fromJSONString(String json) {
+        OrderDetails asset = geson.fromJson(json, OrderDetails.class);
         return asset;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this.orderId.equals(((ProductHistory) obj).orderId)) {
+        if (this.orderId.equals(((OrderDetails) obj).orderId)) {
             return true;
         } else {
             return false;

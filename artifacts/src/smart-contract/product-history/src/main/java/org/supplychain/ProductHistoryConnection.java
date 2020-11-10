@@ -13,46 +13,46 @@ public class ProductHistoryConnection {
     private String connectionId;
 
     @Property()
-    private ProductHistory productHistory1;
+    private OrderDetails orderDetails1;
 
     @Property()
-    private ProductHistory productHistory2;
+    private OrderDetails orderDetails2;
 
     public ProductHistoryConnection() {
 
     }
 
-    public ProductHistoryConnection(String connectionId, ProductHistory productHistory1,
-            ProductHistory productHistory2) {
+    public ProductHistoryConnection(String connectionId, OrderDetails orderDetails1,
+            OrderDetails orderDetails2) {
         this.connectionId = connectionId;
-        this.productHistory1 = productHistory1;
-        this.productHistory2 = productHistory2;
+        this.orderDetails1 = orderDetails1;
+        this.orderDetails2 = orderDetails2;
     }
 
     public String getConnectionId() {
         return this.connectionId;
     }
 
-    public ProductHistory getProductHistory1() {
-        return this.productHistory1;
+    public OrderDetails getOrderDetails1() {
+        return this.orderDetails1;
     }
 
-    public ProductHistory getProductHistory2() {
-        return this.productHistory2;
+    public OrderDetails getOrderDetails2() {
+        return this.orderDetails2;
     }
 
-    public ProductHistory getProductHistoryWithOrderId(String orderId) {
-        if (productHistory1.getOrderId().equals(orderId))
-            return productHistory1;
-        else if (productHistory2.getOrderId().equals(orderId))
-            return productHistory2;
+    public OrderDetails getProductHistoryWithOrderId(String orderId) {
+        if (orderDetails1.getOrderId().equals(orderId))
+            return orderDetails1;
+        else if (orderDetails2.getOrderId().equals(orderId))
+            return orderDetails2;
         return null;
     }
 
     @Override
     public String toString() {
-        return "{" + " connectionId='" + getConnectionId() + "\'" + ", productHistory1='" + getProductHistory1() + "\'"
-                + ", productHistory2='" + getProductHistory2() + "\'" + "}";
+        return "{" + " connectionId='" + getConnectionId() + "\'" + ", productHistory1='" + getOrderDetails1() + "\'"
+                + ", productHistory2='" + getOrderDetails2() + "\'" + "}";
     }
 
     public String toJSONString() {
