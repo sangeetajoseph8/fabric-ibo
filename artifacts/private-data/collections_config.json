@@ -1,23 +1,92 @@
 [
      {
-          "name": "collectionCars",
-          "policy": "OR('CustomerMSP.member', 'ManufacturerMSP.member')",
-          "requiredPeerCount": 0,
-          "maxPeerCount": 3,
-          "blockToLive": 1000000,
+          "name": "cCu",
+          "policy": "OR('CustomerMSP.member')",
+          "requiredPeerCount": 1,
+          "maxPeerCount": 1,
+          "blockToLive": 0,
           "memberOnlyRead": true,
           "memberOnlyWrite": true
      },
      {
-          "name": "collectionCarPrivateDetails",
-          "policy": "OR('CustomerMSP.member')",
-          "requiredPeerCount": 0,
-          "maxPeerCount": 3,
-          "blockToLive": 3,
+          "name": "cCuMa",
+          "policy": "OR('CustomerMSP.member', 'ManufacturerMSP.member')",
+          "requiredPeerCount": 1,
+          "maxPeerCount": 2,
+          "blockToLive": 0,
           "memberOnlyRead": true,
-          "memberOnlyWrite": true,
-          "endorsementPolicy": {
-               "signaturePolicy": "OR('CustomerMSP.member')"
-          }
+          "memberOnlyWrite": true
+     },
+     {
+          "name": "cCuRms",
+          "policy": "OR('CustomerMSP.member', 'RawMaterialSupplierMSP.member')",
+          "requiredPeerCount": 2,
+          "maxPeerCount": 2,
+          "blockToLive": 0,
+          "memberOnlyRead": true,
+          "memberOnlyWrite": true
+     },
+     {
+          "name": "cCuCs",
+          "policy": "OR('CustomerMSP.member', 'ComponentSupplierMSP.member')",
+          "requiredPeerCount": 2,
+          "maxPeerCount": 2,
+          "blockToLive": 0,
+          "memberOnlyRead": true,
+          "memberOnlyWrite": true
+     },
+     {
+          "name": "cMa",
+          "policy": "OR('ManufacturerMSP.member')",
+          "requiredPeerCount": 1,
+          "maxPeerCount": 1,
+          "blockToLive": 0,
+          "memberOnlyRead": true,
+          "memberOnlyWrite": true
+     },
+     {
+          "name": "cMaRms",
+          "policy": "OR('ManufacturerMSP.member', 'RawMaterialSupplierMSP.member')",
+          "requiredPeerCount": 2,
+          "maxPeerCount": 2,
+          "blockToLive": 0,
+          "memberOnlyRead": true,
+          "memberOnlyWrite": true
+     },
+     {
+          "name": "cMaCs",
+          "policy": "OR('ManufacturerMSP.member', 'ComponentSupplierMSP.member')",
+          "requiredPeerCount": 2,
+          "maxPeerCount": 2,
+          "blockToLive": 0,
+          "memberOnlyRead": true,
+          "memberOnlyWrite": true
+     },
+     {
+          "name": "cRms",
+          "policy": "OR('RawMaterialSupplierMSP.member')",
+          "requiredPeerCount": 1,
+          "maxPeerCount": 1,
+          "blockToLive": 0,
+          "memberOnlyRead": true,
+          "memberOnlyWrite": true
+     },
+     {
+          "name": "cRmsCs",
+          "policy": "OR('RawMaterialSupplierMSP.member', 'ComponentSupplierMSP.member')",
+          "requiredPeerCount": 2,
+          "maxPeerCount": 2,
+          "blockToLive": 0,
+          "memberOnlyRead": true,
+          "memberOnlyWrite": true
+     },
+     {
+          "name": "cCs",
+          "policy": "OR('ComponentSupplierMSP.member')",
+          "requiredPeerCount": 1,
+          "maxPeerCount": 2,
+          "blockToLive": 0,
+          "memberOnlyRead": true,
+          "memberOnlyWrite": true
      }
 ]
