@@ -11,7 +11,7 @@ export default {
     registerUserGetAuthToken(path, body, options = {}) {
         axiosInstance.post(path, body).then(res => {
             console.log(res)
-            if (res.data.success == true) {
+            if (res.data.success === true) {
                 localStorage.setItem('authToken', res.data.token)
                 localStorage.setItem('username', body.username)
                 localStorage.setItem('orgName', body.orgName)

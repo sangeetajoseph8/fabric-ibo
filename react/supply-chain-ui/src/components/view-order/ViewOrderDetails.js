@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Header, Icon, Segment, Grid, Divider, GridColumn, Form, Button } from 'semantic-ui-react'
+import { Container, Header, Icon, Segment, Grid, Divider } from 'semantic-ui-react'
 import API from '../Api'
 import "react-datepicker/dist/react-datepicker.css"
 import OrderComment from '../OrderComment'
@@ -71,8 +71,8 @@ export default class ViewOrderDetails extends Component {
 
     render() {
         const { orderId, approverOrgName, fileList, initiatorOrgApprovalStatus,
-            initiatorOrgName, lastUpdated, orderDate, orderLastUpdatedByOrgName, approvalNeededForOrg,
-            orderType, payload, publishedDate, commentList, connectedOrderIds, approverOrgApprovalStatus } = this.state.orderDetails
+            initiatorOrgName, orderDate, approvalNeededForOrg,
+            orderType, payload, commentList, connectedOrderIds, approverOrgApprovalStatus } = this.state.orderDetails
 
         return (
             <Container style={{ margin: 20, width: 700 }}>

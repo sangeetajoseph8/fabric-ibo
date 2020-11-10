@@ -5,19 +5,14 @@ import { Link } from "react-router-dom";
 
 
 export default class AppMenu extends Component {
-    constructor() {
-        super()
-        this.state = {
-            activeItem: ''
-        }
-    }
+
     handleLogoutClick = () => {
         console.log("HI")
         console.log(localStorage.getItem('username', null))
         localStorage.setItem('username', null)
     }
     render() {
-        const { activeItem } = this.state
+
         return (
             <Menu stackable>
                 <Menu.Item>
