@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Menu, Dropdown } from 'semantic-ui-react'
 
 import { Link } from "react-router-dom";
+import ReactLogo from '../logo.png';
 
 
 export default class AppMenu extends Component {
@@ -15,8 +16,8 @@ export default class AppMenu extends Component {
 
         return (
             <Menu stackable>
-                <Menu.Item>
-                    <img src='https://react.semantic-ui.com/logo.png' />
+                <Menu.Item as={Link} to='/'>
+                    <img src={ReactLogo} alt="React Logo" />
                 </Menu.Item>
 
                 <Dropdown text='Orders' pointing className='link item'>
