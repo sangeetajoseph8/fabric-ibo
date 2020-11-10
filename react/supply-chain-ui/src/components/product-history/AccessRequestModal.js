@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, TextArea, Modal } from 'semantic-ui-react'
+import { Button, Form, Modal, Dimmer, Loader } from 'semantic-ui-react'
 import API from '../Api'
 
 export default class AccessRequestModal extends Component {
@@ -9,8 +9,24 @@ export default class AccessRequestModal extends Component {
             open: false,
             comment: "",
             showAccessRequestForm: true,
-            createAccessRequestStatus: false
+            createAccessRequestStatus: false,
+            doesRequestAlredayExists: false,
+            isLoadingActive: false
         }
+    }
+
+    componentDidMount() {
+        API.checkIfAccessRequestExists(this.props.orderId, this.props.orgName, (data) => {
+            this.setState({ doesRequestAlredayExists: data })
+            if (data) {
+                this.setState({ showAccessRequestForm: false })
+            } else {
+                this.setState({ showAccessRequestForm: true })
+            }
+            console.log(this.state)
+        })
+
+
     }
 
     setOpen = (value) => {
@@ -24,20 +40,23 @@ export default class AccessRequestModal extends Component {
     }
 
     requestAccess = () => {
+        this.setState({ isLoadingActive: true })
         var data = {
-            comment: this.state.comment,
+            accessRequestId: "AR_" + new Date().valueOf(),
+            commentFromRequestingOrg: this.state.comment,
             orderId: this.props.orderId,
-            orgName: this.props.orgName
+            approvingOrgName: this.props.orgName
         }
         console.log(data)
         API.createAccessRequestFromProductHistory("ACCRESS_REQUEST", data, (response) => {
-            if (response == "success") {
+            if (response != null) {
                 console.log("succes")
                 this.setState({ createAccessRequestStatus: true, showAccessRequestForm: false })
             } else {
                 console.log("failure")
                 this.setState({ createAccessRequestStatus: false, showAccessRequestForm: false })
             }
+            this.setState({ isLoadingActive: false })
         })
     }
 
@@ -48,7 +67,10 @@ export default class AccessRequestModal extends Component {
                 onOpen={() => this.setOpen(true)}
                 open={this.state.open}
                 trigger={<Button color='teal'>Request Access</Button>} >
-
+                {this.state.isLoadingActive ?
+                    <Dimmer active inverted>
+                        <Loader inverted content='Loading' />
+                    </Dimmer> : null}
                 { this.state.showAccessRequestForm ?
                     <React.Fragment>
                         <Modal.Header>Request access to view product details</Modal.Header>
@@ -62,13 +84,13 @@ export default class AccessRequestModal extends Component {
                             <Form.TextArea label='Comment' rows={2} name="comment"
                                 onChange={this.handleChange}
                                 defaultValue={this.state.comment}
-                                placeholder='Tell us more' />
+                                placeholder='Tell us more' required />
                         </Form>
 
                         <Modal.Actions>
                             <Button color='black' onClick={() => this.setOpen(false)}>
                                 Exit
-                     </Button>
+                            </Button>
                             <Button
                                 content="Request"
                                 labelPosition='right'
@@ -80,7 +102,8 @@ export default class AccessRequestModal extends Component {
                     </React.Fragment>
                     : <Modal.Content >
                         <Modal.Description>
-                            {this.state.createAccessRequestStatus ? <h1> Request send successfully</h1> : <h1> Failure in sending request</h1>}
+                            {this.state.doesRequestAlredayExists ? <h1>Request Alreday exists</h1> :
+                                this.state.createAccessRequestStatus ? <h1> Request send successfully</h1> : <h1> Failure in sending request</h1>}
                         </Modal.Description>
                     </Modal.Content>
                 }

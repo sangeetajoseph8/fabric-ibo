@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Grid, Header, Divider, Icon, Button, Segment } from 'semantic-ui-react'
+import { Container, Grid, Header, Divider, Icon, Segment } from 'semantic-ui-react'
 import Moment from 'react-moment';
 import AccessRequestDeleteModal from './AccessRequestDeleteModal'
 
@@ -7,39 +7,38 @@ import AccessRequestDeleteModal from './AccessRequestDeleteModal'
 export default class AccessRequestDetails extends Component {
 
     render() {
-        console.log(this.props.history)
         const { orderId, approvingOrgName, publishedDate, commentFromRequestingOrg, approvalStatus, commentFromApprovingOrg, approvalDate, accessRequestId } = this.props.location.state.detail
         return (
-            <Container style={{ margin: 20, width: 500 }}>
+            <Container style={{ margin: 20, width: 700 }}>
                 <Segment raised >
                     <Header as='h2' color='teal' textAlign='center' dividing>
                         Access Request Details
                 </Header>
                     <Grid >
                         <Grid.Row columns={2}>
-                            <Grid.Column>
+                            <Grid.Column width={5}>
                                 <Header as='h4'>Order Id : </Header>
                             </Grid.Column>
-                            <Grid.Column>{orderId}</Grid.Column>
+                            <Grid.Column width={11}>{orderId}</Grid.Column>
                         </Grid.Row>
                         <Grid.Row columns={2}>
-                            <Grid.Column>
+                            <Grid.Column width={5}>
                                 <Header as='h4'>Date: </Header>
                             </Grid.Column>
-                            <Grid.Column><Moment format="MMMM DD, YYYY">{publishedDate}</Moment></Grid.Column>
+                            <Grid.Column width={11}><Moment format="MMMM DD, YYYY">{publishedDate}</Moment></Grid.Column>
 
                         </Grid.Row>
                         <Grid.Row columns={2}>
-                            <Grid.Column>
+                            <Grid.Column width={5}>
                                 <Header as='h4'>Organization Name: </Header>
                             </Grid.Column>
-                            <Grid.Column>{approvingOrgName}</Grid.Column>
+                            <Grid.Column width={11}>{approvingOrgName}</Grid.Column>
                         </Grid.Row>
                         <Grid.Row columns={2}>
-                            <Grid.Column>
+                            <Grid.Column width={5}>
                                 <Header as='h4'>Comment: </Header>
                             </Grid.Column>
-                            <Grid.Column><p>{commentFromRequestingOrg}</p></Grid.Column>
+                            <Grid.Column width={11}><p>{commentFromRequestingOrg}</p></Grid.Column>
                         </Grid.Row>
                         <Grid.Row columns={1}>
                             <Grid.Column>
@@ -52,34 +51,34 @@ export default class AccessRequestDetails extends Component {
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row columns={2}>
-                            <Grid.Column>
+                            <Grid.Column width={5}>
                                 <Header as='h4'>Status: </Header>
                             </Grid.Column>
-                            <Grid.Column><p>{approvalStatus}</p></Grid.Column>
+                            <Grid.Column width={11}><p>{approvalStatus}</p></Grid.Column>
                         </Grid.Row>
-                        {commentFromApprovingOrg != null ?
+                        {commentFromApprovingOrg !== null ?
                             <Grid.Row columns={2}>
-                                <Grid.Column>
+                                <Grid.Column width={5}>
                                     <Header as='h4'>Comments from {approvingOrgName}: </Header>
-                                </Grid.Column>
-                                <Grid.Column><p>{commentFromApprovingOrg}</p></Grid.Column>
+                                </Grid.Column >
+                                <Grid.Column width={11}><p>{commentFromApprovingOrg}</p></Grid.Column>
                             </Grid.Row> : null
                         }
-                        {approvalStatus != 'PENDING' ?
+                        {approvalStatus !== 'PENDING' ?
                             <Grid.Row columns={2}>
-                                <Grid.Column>
+                                <Grid.Column width={5}>
                                     <Header as='h4'>Date of Approval: </Header>
                                 </Grid.Column>
-                                <Grid.Column> <Moment format="MMMM DD, YYYY">{approvalDate}</Moment></Grid.Column>
+                                <Grid.Column width={11}> <Moment format="MMMM DD, YYYY">{approvalDate}</Moment></Grid.Column>
                             </Grid.Row> : null
                         }
 
-                        {approvalStatus == 'APPROVED' ?
+                        {approvalStatus === 'APPROVED' ?
                             <Grid.Row columns={2}>
-                                <Grid.Column>
+                                <Grid.Column width={5}>
                                     <Header as='h4'>Order Details Link: </Header>
                                 </Grid.Column>
-                                <Grid.Column> </Grid.Column>
+                                <Grid.Column width={11}> </Grid.Column>
                             </Grid.Row> : null
                         }
 

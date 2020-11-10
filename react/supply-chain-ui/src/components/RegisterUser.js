@@ -1,4 +1,4 @@
-import { Container, Button, Form } from 'semantic-ui-react'
+import { Container, Button, Form, Segment, Header, Message } from 'semantic-ui-react'
 import React, { Component } from 'react'
 import API from './Api'
 
@@ -8,7 +8,8 @@ export class RegisterUser extends Component {
         super()
         this.state = {
             username: '',
-            orgname: ''
+            orgname: '',
+            errorInRegistration: false
         }
     }
 
@@ -26,31 +27,74 @@ export class RegisterUser extends Component {
         }
 
         console.log(userData)
-        API.registerUser("REGISTER_USER", userData, {
-            callback: () => {
-                console.log("Testing")
+        API.registerUser(userData, (result) => {
+            if (result) {
+                this.setState({ errorInRegistration: false })
+            } else {
+                this.setState({ errorInRegistration: true })
             }
         })
-
     }
 
     render() {
 
         return (
-            <Container style={{ margin: 20 }}>
-                <Form onSubmit={this.handleSubmit}>
-                    <Form.Field>
-                        <label className="lable-left-align">User Name</label>
-                        <input placeholder='First Name' name='username' onChange={this.handleChange} />
-                    </Form.Field>
-                    <Form.Field>
-                        <label className="lable-left-align">Organisation Name</label>
-                        <input placeholder='Last Name' name='orgname' onChange={this.handleChange} />
-                    </Form.Field>
+            <Container style={{ margin: 20, width: 600 }}>
+                <Segment raised>
+                    {this.state.errorInRegistration ?
+                        <Message negative>
+                            <Message.Header>Failure while registration</Message.Header>
+                            <p>
+                                Please try again.
+                        </p>
+                        </Message>
 
-                    <Button className="lable-left-align">Submit</Button>
-                </Form>
-            </Container>
+                        : null}
+
+                    {localStorage.getItem('username', null) !== "null" ?
+                        <Container >
+                            <Header textAlign='center'
+                                as='h1'
+                                content={'Welcome ' + localStorage.getItem('username', "")}
+                                style={{
+                                    fontSize: '4em',
+                                    fontWeight: 'normal',
+                                    marginBottom: 0,
+                                    marginTop: '3em',
+                                }}
+                            />
+
+                            <Header textAlign='center'
+                                as='h2'
+                                content='Get Started!'
+                                style={{
+                                    fontSize: '1.7em',
+                                    fontWeight: 'normal',
+                                    marginTop: '1.5em',
+                                    marginBottom: 100
+                                }}
+                            />
+                        </Container>
+                        :
+                        <React.Fragment>
+                            <Header as='h2' color='teal' textAlign='center' dividing>
+                                Register User
+                        </Header>
+                            <Form onSubmit={this.handleSubmit}>
+                                <Form.Field>
+                                    <label className="lable-left-align">User Name</label>
+                                    <input placeholder='First Name' name='username' onChange={this.handleChange} />
+                                </Form.Field>
+                                <Form.Field>
+                                    <label className="lable-left-align">Organisation Name</label>
+                                    <input placeholder='Last Name' name='orgname' onChange={this.handleChange} />
+                                </Form.Field>
+
+                                <Button color='teal'>Submit</Button>
+                            </Form>
+                        </React.Fragment>}
+                </Segment>
+            </Container >
         )
     }
 }

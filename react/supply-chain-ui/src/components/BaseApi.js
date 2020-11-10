@@ -8,16 +8,26 @@ const axiosInstance = axios.create({
 
 export default {
 
-    registerUserGetAuthToken(path, key, body, options = {}) {
+    registerUserGetAuthToken(path, body, options = {}) {
         axiosInstance.post(path, body).then(res => {
             console.log(res)
-            localStorage.setItem('authToken', res.data.token)
+            if (res.data.success == true) {
+                localStorage.setItem('authToken', res.data.token)
+                localStorage.setItem('username', body.username)
+                localStorage.setItem('orgName', body.orgName)
+                options(res.data.token)
+            } else {
+                options(null)
+            }
+
+
         }).catch((err) => {
             console.log(err)
+            options(null)
         });
     },
 
-    makePostRequest(path, key, body, options = {}) {
+    makePostRequest(path, body, options = {}) {
         axiosInstance.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('authToken', "");
         axiosInstance.post(path, body).then(res => {
             console.log(res)
@@ -28,7 +38,7 @@ export default {
         });
     },
 
-    makeGetRequest(path, key, body, options) {
+    makeGetRequest(path, body, options) {
         axiosInstance.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('authToken', "");
         axiosInstance.get(path, body).then(res => {
             console.log(res.data.result)

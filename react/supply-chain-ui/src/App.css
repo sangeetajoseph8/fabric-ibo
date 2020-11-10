@@ -1,6 +1,4 @@
-.App {
- 
-}
+
 
 .App-logo {
   height: 40vmin;
@@ -62,4 +60,13 @@
 
 .app-margin-modal{
     margin: 25px 25px;
+}
+
+#outer {
+  width: 100%;
+  text-align: center;
+}
+
+#inner {
+  display: inline-block;
 }

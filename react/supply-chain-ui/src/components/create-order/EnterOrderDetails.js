@@ -15,12 +15,14 @@ export default class Step1 extends Component {
     render() {
         const { values } = this.props;
         return (
-            <Container style={{ margin: 20, width: 500 }}>
-                <Header as='h2' color='teal' textAlign='center' dividing>
-                    Product Details
+            <Container style={{ margin: 20, width: 600 }}>
+                <Segment raised>
+                    <Header as='h2' color='teal' textAlign='center' dividing>
+                        Product Details
                  </Header>
-                <Form onSubmit={this.saveAndContinue}>
-                    <Segment raised>
+
+                    <Form onSubmit={this.saveAndContinue}>
+
                         <Form.Input label="Product Id" placeholder='Product Id' name='orderId'
                             defaultValue={values.orderId} onChange={this.props.handleChange} />
 
@@ -34,9 +36,13 @@ export default class Step1 extends Component {
                             <Input list='languages' placeholder='Choose Order Type...' defaultValue={values.orderType} name='orderType' onChange={this.props.handleChange} />
                             <datalist id='languages'>
                                 <option value='Manufacturing'>Manufacturing</option>
-                                <option value='Shipment'>Shipment</option>
-                                <option value='Raw Material Supplier'>Raw Material Supplier</option>
-                                <option value='Component Supplier'>Component Supplier</option>
+                                <option value='Product Delivery'>Product Delivery</option>
+                                <option value='Raw Materials Delivery'>Raw Materials Delivery</option>
+                                <option value='Component Delivery'>Component Delivery</option>
+                                <option value='Product Order Placement'>Product Order Placement</option>
+                                <option value='Raw Materials Order Placement'>Raw Materials Order Placement</option>
+                                <option value='Testing'>Testing</option>
+                                <option value='Assembling'>Assembling</option>
                                 <option value='Others'>Others</option>
                             </datalist>
                         </div>
@@ -45,9 +51,10 @@ export default class Step1 extends Component {
 
                         <Form.TextArea label='Payload' name='payload' onChange={this.props.handleChange} defaultValue={values.payload} />
                         <Form.TextArea label='Comment' name='comment' onChange={this.props.handleChange} defaultValue={values.comment} />
-                        <Button color='teal' floated='right'>Save And Continue</Button>
-                    </Segment>
-                </Form>
+                        <Button color='teal'>Save And Continue</Button>
+
+                    </Form>
+                </Segment>
             </Container>
         )
     }

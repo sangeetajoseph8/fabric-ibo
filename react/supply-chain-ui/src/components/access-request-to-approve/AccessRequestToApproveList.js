@@ -81,9 +81,9 @@ export default class AccessRequestToApproveList extends Component {
                                             <Table.Cell>
                                                 {item.approvalStatus}
 
-                                                {(item.approvalStatus == "REJECTED") ?
+                                                {(item.approvalStatus === "REJECTED") ?
                                                     <Icon className="lable-right-align" name="remove circle" color='red' size='large' /> :
-                                                    (item.approvalStatus == "APPROVED") ?
+                                                    (item.approvalStatus === "APPROVED") ?
                                                         <Icon name="check" className="lable-right-align" color='green' size='large' /> : null
                                                 }
 

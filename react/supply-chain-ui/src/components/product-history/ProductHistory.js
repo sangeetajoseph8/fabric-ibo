@@ -15,7 +15,7 @@ export default class ProductHistory extends Component {
     componentDidMount() {
         API.getConnectionHistory("CONNECTION_HISTORY", "MOO1", (list) => {
             console.log(list)
-            if (list.productHistories)
+            if (list && list.productHistories)
                 this.setState({ productHistory: this.state.productHistory.concat(list.productHistories) })
             console.log(this.state)
         })
