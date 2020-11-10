@@ -26,6 +26,7 @@ var createProductHistoryConnection = async function (req, res) {
             res.json(getErrorMessage('\'connectionId or productHistory1 or productHistory2\''));
             return;
         }
+        connection.productHistory1.orgName = req.orgname
         let args = [connection.connectionId, JSON.stringify(connection.productHistory1), JSON.stringify(connection.productHistory2)]
         const start = Date.now();
         let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, args, req.username, req.orgname);
