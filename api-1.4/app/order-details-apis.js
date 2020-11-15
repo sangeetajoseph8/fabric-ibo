@@ -211,6 +211,73 @@ var fetchAllOrdersByOrgName = async function (req, res) {
     }
 }
 
+
+var fetchAllTaggedOrders = async function (req, res) {
+    try {
+        logger.debug('==================== QUERY BY CHAINCODE ==================');
+
+        let fcn = "getAllOrderAsApproverOrg";
+        let orgName = req.orgname;
+
+        if (!orgName) {
+            res.json(getErrorMessage('\'orgName\''));
+            return;
+        }
+
+        let args = [orgName]
+        let peer = 'peer0.' + req.orgname.toLowerCase() + '.ibo.com'
+
+        let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname);
+        const response_payload = {
+            result: message,
+            error: null,
+            errorData: null
+        }
+        res.send(response_payload);
+
+    } catch (error) {
+        const response_payload = {
+            result: null,
+            error: error.name,
+            errorData: error.message
+        }
+        res.send(response_payload)
+    }
+}
+
+var fetchAllUnapprovedOrders = async function (req, res) {
+    try {
+        logger.debug('==================== QUERY BY CHAINCODE ==================');
+
+        let fcn = "getAllOrderThatNeedApproval";
+        let orgName = req.orgname;
+
+        if (!orgName) {
+            res.json(getErrorMessage('\'orgName\''));
+            return;
+        }
+
+        let args = [orgName]
+        let peer = 'peer0.' + req.orgname.toLowerCase() + '.ibo.com'
+
+        let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname);
+        const response_payload = {
+            result: message,
+            error: null,
+            errorData: null
+        }
+        res.send(response_payload);
+
+    } catch (error) {
+        const response_payload = {
+            result: null,
+            error: error.name,
+            errorData: error.message
+        }
+        res.send(response_payload)
+    }
+}
+
 var fetchOrderByOrderId = async function (req, res) {
     try {
         logger.debug('==================== QUERY BY CHAINCODE ==================');
@@ -288,3 +355,5 @@ exports.fetchAllOrdersByOrgName = fetchAllOrdersByOrgName;
 exports.orderDetailsExists = orderDetailsExists;
 exports.fetchOrderByOrderId = fetchOrderByOrderId;
 exports.deleteOrderDetails = deleteOrderDetails;
+exports.fetchAllTaggedOrders = fetchAllTaggedOrders;
+exports.fetchAllUnapprovedOrders = fetchAllUnapprovedOrders;
