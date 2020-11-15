@@ -264,6 +264,14 @@ app.get('/getAllCreatedOrders', async function (req, res) {
 	orderDetailsApis.fetchAllOrdersByOrgName(req, res)
 });
 
+app.get('/getAllTaggedOrders', async function (req, res) {
+	orderDetailsApis.fetchAllTaggedOrders(req, res)
+});
+
+app.get('/getAllUnapprovedOrders', async function (req, res) {
+	orderDetailsApis.fetchAllUnapprovedOrders(req, res)
+});
+
 app.get('/orderDetailsByOrderId', async function (req, res) {
 	orderDetailsApis.fetchOrderByOrderId(req, res)
 });
