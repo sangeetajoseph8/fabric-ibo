@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.supplychain;
+package org.supplychain.order;
 
 import com.google.gson.Gson;
 import org.hyperledger.fabric.contract.annotation.DataType;

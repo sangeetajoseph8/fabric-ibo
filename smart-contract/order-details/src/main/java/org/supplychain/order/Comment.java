@@ -1,4 +1,4 @@
-package org.supplychain;
+package org.supplychain.order;
 
 import com.google.gson.Gson;
 

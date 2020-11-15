@@ -18,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.junit.jupiter.api.Nested;
+import org.supplychain.order.OrderDetails;
 
 public final class OrderDetailsContractTest {
 

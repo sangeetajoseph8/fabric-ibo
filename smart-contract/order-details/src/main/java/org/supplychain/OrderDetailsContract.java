@@ -13,6 +13,10 @@ import org.hyperledger.fabric.contract.annotation.Info;
 import org.hyperledger.fabric.contract.annotation.License;
 import org.hyperledger.fabric.shim.ledger.KeyValue;
 import org.hyperledger.fabric.shim.ledger.QueryResultsIteratorWithMetadata;
+import org.supplychain.order.Comment;
+import org.supplychain.order.OrderDetails;
+import org.supplychain.order.OrderDetailsList;
+import org.supplychain.order.OrderStatus;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,7 +46,7 @@ public class OrderDetailsContract implements ContractInterface {
     }
 
     @Transaction()
-    public void createOrderDetails(Context ctx, String orderDetailsJson) {
+    public void createOrder(Context ctx, String orderDetailsJson) {
         OrderDetails asset = OrderDetails.fromJSONString(orderDetailsJson);
         boolean exists = orderDetailsExists(ctx, asset.getOrderId());
         if (exists) {
@@ -140,9 +144,9 @@ public class OrderDetailsContract implements ContractInterface {
     }
 
     @Transaction()
-    public OrderDetailsList getAllOrderForOrgName(Context ctx, String orgName, int pageSize, String bookmark) {
+    public OrderDetailsList getAllOrderForOrgName(Context ctx, String orgName) {
         QueryResultsIteratorWithMetadata<KeyValue> queryResultIterator = ctx.getStub().getQueryResultWithPagination(
-                String.valueOf("{\"selector\":{\"initiatorOrgName\":\"" + orgName + "\"}}"), pageSize, bookmark);
+                String.valueOf("{\"selector\":{\"initiatorOrgName\":\"" + orgName + "\"}}"), 10, "");
         OrderDetailsList data = new OrderDetailsList();
         List<OrderDetails> orderDetailsList = new ArrayList<>();
         for (KeyValue kv : queryResultIterator) {
@@ -155,9 +159,9 @@ public class OrderDetailsContract implements ContractInterface {
     }
 
     @Transaction()
-    public OrderDetailsList getAllOrderThatNeedApproval(Context ctx, String orgName, int pageSize, String bookmark) {
+    public OrderDetailsList getAllOrderThatNeedApproval(Context ctx, String orgName) {
         QueryResultsIteratorWithMetadata<KeyValue> queryResultIterator = ctx.getStub().getQueryResultWithPagination(
-                String.valueOf("{\"selector\":{\"approvalNeededForOrg\":\"" + orgName + "\"}}"), pageSize, bookmark);
+                String.valueOf("{\"selector\":{\"approvalNeededForOrg\":\"" + orgName + "\"}}"), 10, "");
         OrderDetailsList data = new OrderDetailsList();
         List<OrderDetails> orderDetailsList = new ArrayList<>();
         for (KeyValue kv : queryResultIterator) {
@@ -170,9 +174,9 @@ public class OrderDetailsContract implements ContractInterface {
     }
 
     @Transaction()
-    public OrderDetailsList getAllOrderAsApproverOrg(Context ctx, String orgName, int pageSize, String bookmark) {
+    public OrderDetailsList getAllOrderAsApproverOrg(Context ctx, String orgName) {
         QueryResultsIteratorWithMetadata<KeyValue> queryResultIterator = ctx.getStub().getQueryResultWithPagination(
-                String.valueOf("{\"selector\":{\"approverOrgName\":\"" + orgName + "\"}}"), pageSize, bookmark);
+                String.valueOf("{\"selector\":{\"approverOrgName\":\"" + orgName + "\"}}"), 10, "");
         OrderDetailsList data = new OrderDetailsList();
         List<OrderDetails> orderDetailsList = new ArrayList<>();
         for (KeyValue kv : queryResultIterator) {
