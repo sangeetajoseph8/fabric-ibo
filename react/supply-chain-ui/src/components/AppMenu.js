@@ -8,9 +8,10 @@ import ReactLogo from '../logo.png';
 export default class AppMenu extends Component {
 
     handleLogoutClick = () => {
-        console.log("HI")
-        console.log(localStorage.getItem('username', null))
         localStorage.setItem('username', null)
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000)
     }
     render() {
 

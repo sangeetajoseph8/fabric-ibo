@@ -21,6 +21,16 @@ export default {
     API.makeGetRequest(path, '', options);
   },
 
+  getAllTaggedOrders(options = {}) {
+    const path = `/getAllTaggedOrders`;
+    API.makeGetRequest(path, '', options);
+  },
+
+  getAllUnapprovedOrders(options = {}) {
+    const path = `/getAllUnapprovedOrders`;
+    API.makeGetRequest(path, '', options);
+  },
+
   deleteOrderDetails(data, options) {
     const path = `/deleteOrderDetails`
     API.makePostRequest(path, data, options);

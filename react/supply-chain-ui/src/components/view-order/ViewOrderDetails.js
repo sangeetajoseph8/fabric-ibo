@@ -30,14 +30,11 @@ export default class ViewOrderDetails extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props)
         API.getProductDetails(this.props.match.params.orderId, data => {
-            console.log(data)
             if (data) {
                 this.setState({ orderDetails: data })
             }
         })
-        console.log(this.state)
     }
 
     handleChange = (event) => {
@@ -62,7 +59,6 @@ export default class ViewOrderDetails extends Component {
     }
 
     handleDateChange = (date) => {
-        console.log(date)
         this.setState({
             orderDate: date
         });

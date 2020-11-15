@@ -40,6 +40,7 @@ export default class Step1 extends Component {
                                 <option value='Raw Materials Delivery'>Raw Materials Delivery</option>
                                 <option value='Component Delivery'>Component Delivery</option>
                                 <option value='Product Order Placement'>Product Order Placement</option>
+                                <option value='Component Order Placement'>Component Order Placement</option>
                                 <option value='Raw Materials Order Placement'>Raw Materials Order Placement</option>
                                 <option value='Testing'>Testing</option>
                                 <option value='Assembling'>Assembling</option>

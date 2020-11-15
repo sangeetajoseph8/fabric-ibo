@@ -10,6 +10,8 @@ import AccessRequestToApproveList from './components/access-request-to-approve/A
 import Menu from './components/AppMenu'
 import ViewOrderDetails from './components/view-order/ViewOrderDetails';
 import CreatedOrderList from './components/view-order/CreatedOrderList';
+import TaggedOrderList from './components/view-order/TaggedOrderList';
+import ApprovalOrderList from './components/view-order/ApprovalOrderList';
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
           <Route path="/accessRequestToApproveList" component={AccessRequestToApproveList}></Route>
           <Route path="/orderDetails/:orderId" component={ViewOrderDetails}></Route>
           <Route path="/createdOrderList" component={CreatedOrderList}></Route>
+          <Route path="/taggedOrderList" component={TaggedOrderList}></Route>
+          <Route path="/approveOrderList" component={ApprovalOrderList}></Route>
         </Switch>
 
       </BrowserRouter>

@@ -29,20 +29,17 @@ export default class OrderStatusChangeModal extends Component {
             orderStatus: status,
             comment: this.state.comment
         }
-        console.log(data)
         API.updateOrderStatus(data, (response) => {
             if (response != null) {
-                console.log("succes")
                 this.setState({ responseMessage: 'Order status updated successfully' })
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1500)
+                // setTimeout(() => {
+                //     window.location.reload();
+                // }, 1500)
             } else {
-                console.log("failure")
                 this.setState({ responseMessage: 'Failure in upating order status.' })
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1500)
+                // setTimeout(() => {
+                //     window.location.reload();
+                // }, 1500)
             }
             this.setState({ isLoadingActive: false })
         })

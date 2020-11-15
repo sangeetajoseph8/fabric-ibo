@@ -23,7 +23,6 @@ export default class AccessRequestModal extends Component {
             } else {
                 this.setState({ showAccessRequestForm: true })
             }
-            console.log(this.state)
         })
 
 
@@ -50,10 +49,8 @@ export default class AccessRequestModal extends Component {
         console.log(data)
         API.createAccessRequestFromProductHistory("ACCRESS_REQUEST", data, (response) => {
             if (response != null) {
-                console.log("succes")
                 this.setState({ createAccessRequestStatus: true, showAccessRequestForm: false })
             } else {
-                console.log("failure")
                 this.setState({ createAccessRequestStatus: false, showAccessRequestForm: false })
             }
             this.setState({ isLoadingActive: false })

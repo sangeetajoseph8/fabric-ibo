@@ -9,7 +9,6 @@ const ipfs = new IPFS({
 export default {
 
     saveToIpfs(buffer, options = {}) {
-        console.log(buffer)
         ipfs.files.add(Buffer.from(buffer), (error, result) => {
             if (error) {
                 console.error('Error:', error)

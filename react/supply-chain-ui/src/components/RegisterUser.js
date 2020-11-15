@@ -25,8 +25,6 @@ export class RegisterUser extends Component {
             username: this.state.username,
             orgName: this.state.orgname
         }
-
-        console.log(userData)
         API.registerUser(userData, (result) => {
             if (result) {
                 this.setState({ errorInRegistration: false })

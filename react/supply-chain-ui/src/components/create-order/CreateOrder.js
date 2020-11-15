@@ -31,7 +31,6 @@ export default class CreateOrder extends Component {
     }
 
     handleSubmit = () => {
-        console.log(this.state)
         if (this.state.noOfFilesUploadedToIPFS === this.state.ipfsFiles.length &&
             this.state.noOfConnectionsSaved === this.state.connectionList.length) {
             const data = {
@@ -81,14 +80,12 @@ export default class CreateOrder extends Component {
 
     addToOrderListForConnection = (data) => {
         this.setState({ connectionList: this.state.connectionList.concat(data) })
-        console.log(this.state.connectionList)
     }
 
     handleChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value
         })
-        console.log(this.state)
     }
 
     onFileChangeHandler = (event) => {
@@ -103,8 +100,6 @@ export default class CreateOrder extends Component {
                     name: file.name
                 })
             })
-            console.log('buffer', this.state.fileBufferList)
-            console.log('DD', this.state)
         }
         event.target.value = null
     }
@@ -125,6 +120,7 @@ export default class CreateOrder extends Component {
                     orgName: item.initiatorOrgName
                 }
             }
+            console.log("Testtststtsdgs")
             console.log(data)
             API.createConnection(data, (result) => {
                 this.setState(
@@ -149,7 +145,7 @@ export default class CreateOrder extends Component {
                     this.setState(
                         { noOfFilesUploadedToIPFS: this.state.noOfFilesUploadedToIPFS + 1 }
                     )
-                    console.log(ipfsHash)
+
                     if (ipfsHash) {
                         let file = {
                             name: ipfsFile.name,

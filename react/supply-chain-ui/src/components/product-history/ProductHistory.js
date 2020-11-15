@@ -17,14 +17,11 @@ export default class ProductHistory extends Component {
             console.log(list)
             if (list && list.productHistories)
                 this.setState({ productHistory: this.state.productHistory.concat(list.productHistories) })
-            console.log(this.state)
         })
     }
 
     render() {
-        console.log(this.state.productHistory)
         const { productHistory } = this.state
-        console.log(productHistory)
         return (
             <Container style={{ margin: 20, width: 500 }} textAlign='center'>
                 <Segment raised >

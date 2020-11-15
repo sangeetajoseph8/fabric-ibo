@@ -21,7 +21,6 @@ export default class AccessRequestList extends Component {
     }
 
     handleClick = (item) => {
-        console.log(this.props)
         this.props.history.push(
             {
                 pathname: '/accessRequestDetails',
