@@ -374,11 +374,11 @@ chaincodeInvoke() {
         --ordererTLSHostnameOverride orderer.ibo.com \
         --tls $CORE_PEER_TLS_ENABLED \
         --cafile $ORDERER_CA \
-        -C $CHANNEL_NAME_1 -n ${CC_NAME_1}  \
-        --peerAddresses localhost:6051 --tlsRootCertFiles $PEER0_CUSTOMER_CA \
-        --peerAddresses localhost:7051 --tlsRootCertFiles $PEER0_MANUFACTURER_CA \
-        --peerAddresses localhost:8051 --tlsRootCertFiles $PEER0_RAWMATERIAL_SUPPLIER_CA \
-        --peerAddresses localhost:9051 --tlsRootCertFiles $PEER0_COMPONENT_SUPPLIER_CA \
+        -C $CHANNEL_NAME_2 -n ${CC_NAME_1}  \
+        --peerAddresses localhost:6055 --tlsRootCertFiles $PEER1_CUSTOMER_CA \
+        --peerAddresses localhost:7055 --tlsRootCertFiles $PEER1_MANUFACTURER_CA \
+        --peerAddresses localhost:8055 --tlsRootCertFiles $PEER1_RAWMATERIAL_SUPPLIER_CA \
+        --peerAddresses localhost:9055 --tlsRootCertFiles $PEER1_COMPONENT_SUPPLIER_CA \
          -c '{"function": "createOrderDetails", "Args":["0006"]}' 
     
 }
@@ -449,7 +449,7 @@ checkCommitReadyness_2
 commitChaincodeDefination_2
 queryCommitted_2
 
-chaincodeInvokeInit_2
+ chaincodeInvokeInit_2
 
 
 
