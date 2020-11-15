@@ -7,7 +7,6 @@ export default class ProductHistoryStep extends Component {
 
     render() {
         return (
-
             <Step completed>
                 <Card>
                     <Card.Content>

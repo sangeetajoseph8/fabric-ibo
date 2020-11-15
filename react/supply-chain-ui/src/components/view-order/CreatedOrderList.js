@@ -64,10 +64,10 @@ export default class CreatedOrderList extends Component {
                                             <Table.Cell> {item.approverOrgName} </Table.Cell>
 
                                             <Table.Cell>
-                                                {item.approvalStatus}
-                                                {(item.approvalStatus === "REJECTED") ?
+                                                {item.approverOrgApprovalStatus}
+                                                {(item.approverOrgApprovalStatus === "REJECTED") ?
                                                     <Icon className="lable-right-align" name="remove circle" color='red' size='large' /> :
-                                                    (item.approvalStatus === "APPROVED") ?
+                                                    (item.approverOrgApprovalStatus === "APPROVED") ?
                                                         <Icon name="check" className="lable-right-align" color='green' size='large' /> : null
                                                 }
                                             </Table.Cell>

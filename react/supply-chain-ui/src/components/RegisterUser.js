@@ -28,6 +28,9 @@ export class RegisterUser extends Component {
         API.registerUser(userData, (result) => {
             if (result) {
                 this.setState({ errorInRegistration: false })
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500)
             } else {
                 this.setState({ errorInRegistration: true })
             }
@@ -53,7 +56,7 @@ export class RegisterUser extends Component {
                         <Container >
                             <Header textAlign='center'
                                 as='h1'
-                                content={'Welcome ' + localStorage.getItem('username', "")}
+                                content={'Welcome'}
                                 style={{
                                     fontSize: '4em',
                                     fontWeight: 'normal',
@@ -61,7 +64,18 @@ export class RegisterUser extends Component {
                                     marginTop: '3em',
                                 }}
                             />
-
+                            <Header textAlign='center'
+                                as='h1'
+                                content={localStorage.getItem('username', "") +
+                                    ' - ' +
+                                    localStorage.getItem('orgName', "")}
+                                style={{
+                                    fontSize: '4em',
+                                    fontWeight: 'normal',
+                                    marginBottom: 0,
+                                    marginTop: '0',
+                                }}
+                            />
                             <Header textAlign='center'
                                 as='h2'
                                 content='Get Started!'

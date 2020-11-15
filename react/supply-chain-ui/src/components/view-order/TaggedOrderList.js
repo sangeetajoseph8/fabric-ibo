@@ -64,10 +64,10 @@ export default class TaggedOrderList extends Component {
                                             <Table.Cell> {item.approverOrgName} </Table.Cell>
 
                                             <Table.Cell>
-                                                {item.approvalStatus}
-                                                {(item.approvalStatus === "REJECTED") ?
+                                                {item.initiatorOrgApprovalStatus}
+                                                {(item.initiatorOrgApprovalStatus === "REJECTED") ?
                                                     <Icon className="lable-right-align" name="remove circle" color='red' size='large' /> :
-                                                    (item.approvalStatus === "APPROVED") ?
+                                                    (item.initiatorOrgApprovalStatus === "APPROVED") ?
                                                         <Icon name="check" className="lable-right-align" color='green' size='large' /> : null
                                                 }
                                             </Table.Cell>

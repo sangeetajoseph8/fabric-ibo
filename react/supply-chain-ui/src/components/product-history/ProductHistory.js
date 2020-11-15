@@ -14,9 +14,9 @@ export default class ProductHistory extends Component {
 
     componentDidMount() {
         API.getConnectionHistory("CONNECTION_HISTORY", "MOO1", (list) => {
-            console.log(list)
-            if (list && list.productHistories)
-                this.setState({ productHistory: this.state.productHistory.concat(list.productHistories) })
+            if (list) {
+                this.setState(this.setState({ productHistory: this.state.productHistory.concat(list.productHistory) }))
+            }
         })
     }
 
@@ -30,7 +30,7 @@ export default class ProductHistory extends Component {
                     </Header>
                     <Step.Group vertical>
                         {
-                            productHistory.length ?
+                            productHistory !== null && productHistory.length !== 0 ?
                                 productHistory.map(item => <ProductHistoryStep
                                     orderType={item.orderType}
                                     orderDate={item.orderDate}
