@@ -4,9 +4,9 @@ var logger = log4js.getLogger('SampleWebApp');
 var query = require('./query.js');
 var invoke = require('./invoke-transaction.js');
 
-const channelName = 'product-history'
-const chaincodeName = 'producthistory'
-const peers = ["peer1.customer.ibo.com", "peer1.manufacturer.ibo.com", "peer1.rawmaterialsupplier.ibo.com", "peer1.componentsupplier.ibo.com"]
+const channelName = 'order-details'
+const chaincodeName = 'orderdetails'
+const peers = ["peer0.customer.ibo.com", "peer0.manufacturer.ibo.com", "peer0.rawmaterialsupplier.ibo.com", "peer0.componentsupplier.ibo.com"]
 
 function getErrorMessage(field) {
     var response = {

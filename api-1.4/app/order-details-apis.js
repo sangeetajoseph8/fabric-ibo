@@ -156,7 +156,7 @@ var deleteOrderDetails = async function (req, res) {
             return;
         }
 
-        const args = [orderDetails.orderId]
+        const args = [orderDetails.orderId, req.orgname]
         const start = Date.now();
         let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, args, req.username, req.orgname);
         const latency = Date.now() - start;
