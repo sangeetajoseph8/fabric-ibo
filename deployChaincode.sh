@@ -98,11 +98,11 @@ presetup() {
 
 CC_RUNTIME_LANGUAGE="java"
 VERSION_1="1"
-CC_SRC_PATH_1="./artifacts/src/smart-contract/order-pdc"
+CC_SRC_PATH_1="./smart-contract/order-details"
 CC_NAME_1="orderdetails"
 
 VERSION_2="1"
-CC_SRC_PATH_2="./artifacts/src/smart-contract/product-history"
+CC_SRC_PATH_2="./smart-contract/product-history"
 CC_NAME_2="producthistory"
 
 packageChaincode_1() {
