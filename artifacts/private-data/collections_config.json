@@ -20,7 +20,7 @@
      {
           "name": "cCuRms",
           "policy": "OR('CustomerMSP.member', 'RawMaterialSupplierMSP.member')",
-          "requiredPeerCount": 2,
+          "requiredPeerCount": 1,
           "maxPeerCount": 2,
           "blockToLive": 0,
           "memberOnlyRead": true,
@@ -29,7 +29,7 @@
      {
           "name": "cCuCs",
           "policy": "OR('CustomerMSP.member', 'ComponentSupplierMSP.member')",
-          "requiredPeerCount": 2,
+          "requiredPeerCount": 1,
           "maxPeerCount": 2,
           "blockToLive": 0,
           "memberOnlyRead": true,
@@ -47,7 +47,7 @@
      {
           "name": "cMaRms",
           "policy": "OR('ManufacturerMSP.member', 'RawMaterialSupplierMSP.member')",
-          "requiredPeerCount": 2,
+          "requiredPeerCount": 1,
           "maxPeerCount": 2,
           "blockToLive": 0,
           "memberOnlyRead": true,
@@ -56,7 +56,7 @@
      {
           "name": "cMaCs",
           "policy": "OR('ManufacturerMSP.member', 'ComponentSupplierMSP.member')",
-          "requiredPeerCount": 2,
+          "requiredPeerCount": 1,
           "maxPeerCount": 2,
           "blockToLive": 0,
           "memberOnlyRead": true,
@@ -74,7 +74,7 @@
      {
           "name": "cRmsCs",
           "policy": "OR('RawMaterialSupplierMSP.member', 'ComponentSupplierMSP.member')",
-          "requiredPeerCount": 2,
+          "requiredPeerCount": 1,
           "maxPeerCount": 2,
           "blockToLive": 0,
           "memberOnlyRead": true,
