@@ -13,7 +13,7 @@ export default class ProductHistory extends Component {
     }
 
     componentDidMount() {
-        API.getConnectionHistory("CONNECTION_HISTORY", "MOO1", (list) => {
+        API.getConnectionHistory("CONNECTION_HISTORY", this.props.match.params.orderId, (list) => {
             if (list) {
                 this.setState(this.setState({ productHistory: this.state.productHistory.concat(list.productHistory) }))
             }
@@ -26,7 +26,7 @@ export default class ProductHistory extends Component {
             <Container style={{ margin: 20, width: 500 }} textAlign='center'>
                 <Segment raised >
                     <Header as='h2' color='teal' textAlign='center' dividing>
-                        Product History {productHistory.length ? ": " + this.props.orderId : null}
+                        Product History {productHistory.length ? ": " + this.props.match.params.orderId : null}
                     </Header>
                     <Step.Group vertical>
                         {

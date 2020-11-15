@@ -23,7 +23,7 @@ export default class AccessRequestToApproveList extends Component {
     handleClick = (item) => {
         this.props.history.push(
             {
-                pathname: '/accessRequestDetails',
+                pathname: '/accessRequestToApproveDetails',
                 search: '?requestId=' + item.orderId,
                 state: { detail: item }
             }

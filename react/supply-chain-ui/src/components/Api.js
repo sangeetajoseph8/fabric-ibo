@@ -56,6 +56,11 @@ export default {
     API.makePostRequest(path, data, options);
   },
 
+  updateStatusOfAccessRequest(data, options) {
+    const path = `/updateStatusOfAccessRequest`;
+    API.makePostRequest(path, data, options);
+  },
+
   checkIfAccessRequestExists(orderId, approvingOrgName, options) {
     const path = `/accessRequestExists?orderId=${orderId}&approvingOrgName=${approvingOrgName}`
     API.makeGetRequest(path, '', options);

@@ -90,7 +90,7 @@ export default class AccessRequestList extends Component {
                                         </Table.Row>
 
                                     )
-                                    : <Table.Row><Table.Cell>No Product History Found</Table.Cell></Table.Row>
+                                    : <Table.Row><Table.Cell>No Access Request Found</Table.Cell></Table.Row>
                             }
                         </Table.Body>
                     </Table>

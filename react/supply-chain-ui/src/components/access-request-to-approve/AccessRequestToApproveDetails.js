@@ -1,11 +1,18 @@
 import React, { Component } from 'react'
 import { Container, Grid, Header, Divider, Icon, Segment } from 'semantic-ui-react'
 import Moment from 'react-moment';
-import AccessRequestDeleteModal from './AccessRequestDeleteModal'
+import AccessRequestApproveModal from './AccessRequestApproveModal'
 import { Link } from "react-router-dom";
 
 export default class AccessRequestDetails extends Component {
-
+    handleClick = (item) => {
+        this.props.history.push(
+            {
+                pathname: '/orderDetails/' + item.orderId,
+                state: { orderId: item.orderId }
+            }
+        )
+    }
 
     render() {
         const { orderId, approvingOrgName, publishedDate, commentFromRequestingOrg, approvalStatus, commentFromApprovingOrg, approvalDate, accessRequestId } = this.props.location.state.detail
@@ -89,7 +96,7 @@ export default class AccessRequestDetails extends Component {
 
                         <Grid.Row columns={1}>
                             <Grid.Column>
-                                <AccessRequestDeleteModal accessRequestId={accessRequestId} history={this.props.history} className="ui fluid button" basic color='red' />
+                                <AccessRequestApproveModal accessRequestId={accessRequestId} history={this.props.history} className="ui fluid button" basic color='red' />
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>

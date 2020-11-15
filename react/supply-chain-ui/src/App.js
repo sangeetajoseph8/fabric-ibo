@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ProductHistory from './components/product-history/ProductHistory';
 import AccessRequestList from './components/access-request/AccessRequestList'
 import AccessRequestDetails from './components/access-request/AccessRequestDetails'
+import AccessRequestToApproveDetails from './components/access-request-to-approve/AccessRequestToApproveDetails';
 import AccessRequestToApproveList from './components/access-request-to-approve/AccessRequestToApproveList';
 import Menu from './components/AppMenu'
 import ViewOrderDetails from './components/view-order/ViewOrderDetails';
@@ -22,9 +23,10 @@ function App() {
         <Switch>
           <Route exact path="/" component={RegisterUser}></Route>
           <Route path="/createOrder" component={CreateOrder}></Route>
-          <Route path="/productHistory" component={ProductHistory}></Route>
+          <Route path="/productHistory/:orderId" component={ProductHistory}></Route>
           <Route path="/accessRequestList" component={AccessRequestList}></Route>
           <Route path="/accessRequestDetails" component={AccessRequestDetails}></Route>
+          <Route path="/accessRequestToApproveDetails" component={AccessRequestToApproveDetails}></Route>
           <Route path="/accessRequestToApproveList" component={AccessRequestToApproveList}></Route>
           <Route path="/orderDetails/:orderId" component={ViewOrderDetails}></Route>
           <Route path="/createdOrderList" component={CreatedOrderList}></Route>

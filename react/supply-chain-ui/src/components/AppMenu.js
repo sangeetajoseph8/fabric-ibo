@@ -33,7 +33,7 @@ export default class AppMenu extends Component {
 
                 <Dropdown text='Product History' pointing className='link item'>
                     <Dropdown.Menu>
-                        <Dropdown.Item as={Link} to='/productHistory'>Get history</Dropdown.Item>
+                        <Dropdown.Item as={Link} to='/productHistory/MOO1'>Get history</Dropdown.Item>
                         <Dropdown.Item as={Link} to='/accessRequestList'>Access Requests raised</Dropdown.Item>
                         <Dropdown.Item as={Link} to='/accessRequestToApproveList'>Requests to approve</Dropdown.Item>
                     </Dropdown.Menu>

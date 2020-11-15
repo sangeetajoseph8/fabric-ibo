@@ -74,7 +74,7 @@ export default class ViewOrderDetails extends Component {
             <Container style={{ margin: 20, width: 700 }}>
                 <Segment raised >
                     <Header as='h2' color='teal' textAlign='center' dividing>
-                        Access Request Details
+                        Order Details
                     </Header>
                     <Grid >
                         {orderId === '' ?
