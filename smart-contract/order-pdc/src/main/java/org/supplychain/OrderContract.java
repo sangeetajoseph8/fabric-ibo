@@ -125,7 +125,7 @@ public class OrderContract implements ContractInterface {
     }
 
     @Transaction()
-    public Order getOrderDetails(Context ctx, String orderDetailsId, String orgName) throws IOException {
+    public Order getOrderDetails(Context ctx, String orderDetailsId, String orgName) throws IOException, RuntimeException {
         List<String> collectionList = new PrivateDataCollectionsUtil().getAllCollectionsContainingOrg(orgName);
         for (String collection : collectionList) {
             logger.info("Collection used: " + collection);

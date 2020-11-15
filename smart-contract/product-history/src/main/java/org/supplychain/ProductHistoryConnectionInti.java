@@ -8,14 +8,14 @@ import java.util.List;
 public class ProductHistoryConnectionInti {
 
     static OrderDetails m001 = new OrderDetails("MOO1", "Customer", LocalDate.now().plusDays(1).toString(), "Product Order Placement");
-    static OrderDetails s001 = new OrderDetails("SOO1", "Supplier", LocalDate.now().plusDays(2).toString(), "Component Order Placement");
-    static OrderDetails rs001 = new OrderDetails("RSOO1", "Raw Material Supplier", LocalDate.now().plusDays(3).toString(), "Raw Materials Order Placement");
-    static OrderDetails rs002 = new OrderDetails("RSOO2", "Raw Material Supplier", LocalDate.now().plusDays(4).toString(), "Raw Materials Delivery");
+    static OrderDetails rs001 = new OrderDetails("RSOO1", "Raw Material Supplier", LocalDate.now().plusDays(2).toString(), "Raw Materials Order Placement");
+    static OrderDetails rs002 = new OrderDetails("RSOO2", "Raw Material Supplier", LocalDate.now().plusDays(3).toString(), "Raw Materials Delivery");
+        static OrderDetails s001 = new OrderDetails("SOO1", "Supplier", LocalDate.now().plusDays(4).toString(), "Component Order Placement");
     static OrderDetails s002 = new OrderDetails("SOO2", "Supplier", LocalDate.now().plusDays(5).toString(), "Manufacturing");
     static OrderDetails s003 = new OrderDetails("SOO3", "Supplier", LocalDate.now().plusDays(6).toString(), "Component Delivery");
     static OrderDetails m002 = new OrderDetails("MOO2", "Manufacturer", LocalDate.now().plusDays(7).toString(), "Manufacturing");
     static OrderDetails m003 = new OrderDetails("MOO3", "Manufacturer", LocalDate.now().plusDays(8).toString(), "Testing");
-    static OrderDetails m004 = new OrderDetails("MOO4", "Manufacturer", LocalDate.now().plusDays(1).toString(), "Product Delivery");
+    static OrderDetails m004 = new OrderDetails("MOO4", "Manufacturer", LocalDate.now().plusDays(9).toString(), "Product Delivery");
 
 
     static ProductHistoryConnection C1 = new ProductHistoryConnection("C1", m001, s001);
