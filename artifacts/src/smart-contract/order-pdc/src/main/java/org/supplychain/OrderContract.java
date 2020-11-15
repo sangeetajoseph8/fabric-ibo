@@ -50,12 +50,14 @@ public class OrderContract implements ContractInterface {
 
     @Transaction()
     public boolean orderDetailsExists(Context ctx, String orderId, String orgName) throws IOException {
+
         List<String> collectionList = new PrivateDataCollectionsUtil().getAllCollectionsContainingOrg(orgName);
         for (String collection : collectionList) {
             logger.info("Collection used: " + collection);
-            byte[] buffer = ctx.getStub().getPrivateDataHash(collection, orderId);
-            if (Order.fromJSONString(new String(buffer, "UTF-8")) != null)
+            byte[] privateData = ctx.getStub().getPrivateData(collection, orderId);
+            if (Order.fromJSONString(new String(privateData, "UTF-8")) != null) {
                 return true;
+            }
         }
         return false;
     }
@@ -166,11 +168,10 @@ public class OrderContract implements ContractInterface {
         String comment = new String(transientData.get("comment"), "UTF-8");
         String approvalStatus = new String(transientData.get("approvalStatus"), "UTF-8");
 
-        boolean exists = orderDetailsExists(ctx, orderDetailsId, orderStatusUpdatedByOrgName);
-        if (!exists) {
+        Order asset = getOrderDetails(ctx, orderDetailsId, orderStatusUpdatedByOrgName);
+        if (asset.getOrderId() == null) {
             throw new RuntimeException("The asset " + orderDetailsId + " does not exist");
         }
-        Order asset = getOrderDetails(ctx, orderDetailsId, orderStatusUpdatedByOrgName);
         if (!checkIfOrgCanUpdateOrder(asset, orderStatusUpdatedByOrgName)) {
             throw new RuntimeException("Invalid Access");
         }
