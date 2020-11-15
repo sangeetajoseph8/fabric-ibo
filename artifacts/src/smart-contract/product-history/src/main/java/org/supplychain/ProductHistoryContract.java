@@ -2,17 +2,35 @@ package org.supplychain;
 
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
-import org.hyperledger.fabric.contract.annotation.Transaction;
 import org.hyperledger.fabric.shim.ledger.KeyValue;
 import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
+import org.hyperledger.fabric.contract.annotation.Contract;
+import org.hyperledger.fabric.contract.annotation.Default;
+import org.hyperledger.fabric.contract.annotation.Transaction;
+import org.hyperledger.fabric.contract.annotation.Contact;
+import org.hyperledger.fabric.contract.annotation.Info;
+import org.hyperledger.fabric.contract.annotation.License;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+@Contract(name = "ProductHistoryContract", info = @Info(title = "ProductHistory contract", description = "My Smart Contract", version = "0.0.1", license = @License(name = "Apache-2.0", url = ""), contact = @Contact(email = "product-history@example.com", name = "product-history", url = "http://product-history.me")))
+@Default
 public class ProductHistoryContract implements ContractInterface {
+
+    @Transaction()
+    public void initLedger(final Context ctx) throws IOException {
+        List<ProductHistoryConnection> l = ProductHistoryConnectionInti.getData();
+        for (ProductHistoryConnection phc : l) {
+            createProductHistoryConnection(ctx, phc.getConnectionId(), phc.getOrderDetails1().toJSONString(),
+                    phc.getOrderDetails2().toJSONString());
+        }
+    }
+
     @Transaction()
     public boolean productHistoryConnectionExists(Context ctx, String productHistoryConnectionId) {
         byte[] buffer = ctx.getStub().getState(productHistoryConnectionId);
@@ -21,7 +39,7 @@ public class ProductHistoryContract implements ContractInterface {
 
     @Transaction()
     public String createProductHistoryConnection(Context ctx, String productHistoryConnectionId, String orderJson1,
-                                                 String orderJson2) {
+            String orderJson2) {
         boolean exists = productHistoryConnectionExists(ctx, productHistoryConnectionId);
         if (exists) {
             throw new RuntimeException("The asset " + productHistoryConnectionId + " already exists");
@@ -75,7 +93,7 @@ public class ProductHistoryContract implements ContractInterface {
     }
 
     private void processSubListOfConnections(Context ctx, List<ProductHistoryConnection> subConnectionList,
-                                             List<ProductHistoryConnection> productHistoryConnectionList, List<OrderDetails> orderDetailsList) {
+            List<ProductHistoryConnection> productHistoryConnectionList, List<OrderDetails> orderDetailsList) {
         for (ProductHistoryConnection conn : subConnectionList) {
             if (productHistoryConnectionList.contains(conn))
                 continue;
@@ -98,8 +116,8 @@ public class ProductHistoryContract implements ContractInterface {
 
     private List<ProductHistoryConnection> getProductHistoryConnections(Context ctx, String orderId) {
         QueryResultsIterator<KeyValue> queryResultIterator = ctx.getStub()
-                .getQueryResult("{\"selector\": {\"$or\": [ {\"productHistory1.orderId\": \"" + orderId + "\" },"
-                        + "{\"productHistory2.orderId\": \"" + orderId + "\" }] } }");
+                .getQueryResult("{\"selector\": {\"$or\": [ {\"orderDetails1.orderId\": \"" + orderId + "\" },"
+                        + "{\"orderDetails2.orderId\": \"" + orderId + "\" }] } }");
 
         List<ProductHistoryConnection> productHistoryConnection = new ArrayList<>();
         for (KeyValue kv : queryResultIterator) {
