@@ -46,3 +46,13 @@ npm start
 Register the user to get the authorization token.
 
 Refer to the clips in the video folder.
+
+One can run the smart contracts with the help of HTTP calls using the postman collections
+
+## Components
+
+1. Fabric Network: Refer artifacts and smart-contract folder
+
+2. Fabric Client: Refer api-1.4 folder
+
+3. React UI: Refer react
