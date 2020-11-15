@@ -224,3 +224,4 @@ exports.deleteAccessRequest = deleteAccessRequest
 exports.checkIfAccessRequestExists = checkIfAccessRequestExists
 exports.getAccessRequestListForRequestingOrg = getAccessRequestListForRequestingOrg
 exports.getAccessRequestListForApprovingOrg = getAccessRequestListForApprovingOrg
+exports.updateStatusOfAccessRequest = updateStatusOfAccessRequest

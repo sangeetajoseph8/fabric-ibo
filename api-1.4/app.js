@@ -296,6 +296,10 @@ app.post('/deleteAccessRequest', async function (req, res) {
 	accessRequestApis.deleteAccessRequest(req, res)
 });
 
+app.post('/updateStatusOfAccessRequest', async function (req, res) {
+	accessRequestApis.updateStatusOfAccessRequest(req, res)
+});
+
 app.get('/accessRequestExists', async function (req, res) {
 	accessRequestApis.checkIfAccessRequestExists(req, res)
 });
