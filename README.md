@@ -1,4 +1,4 @@
-# fabric-ibo: Blockchain-based Supply Chain using Hyperledger Fabric 
+# Blockchain-based Supply Chain using Hyperledger Fabric 
 
 Component provenance tracing through blockchain-based, trackable data exchange for safety-critical industrial supply chains
 
