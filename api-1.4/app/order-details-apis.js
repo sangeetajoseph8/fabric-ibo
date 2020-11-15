@@ -48,7 +48,7 @@ var createOrderDetails = async function (req, res) {
             order: Buffer.from(JSON.stringify(orderDetails))
         }
         const start = Date.now();
-        let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, [], req.username, req.orgname, data);
+        let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, [JSON.stringify(orderDetails)], req.username, req.orgname, data);
         const latency = Date.now() - start;
 
         const response_payload = {
@@ -84,7 +84,7 @@ var updateOrderDetails = async function (req, res) {
         }
 
         const start = Date.now();
-        let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, [], req.username, req.orgname, data);
+        let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, [order], req.username, req.orgname, data);
         const latency = Date.now() - start;
 
         const response_payload = {
@@ -126,7 +126,8 @@ var updateOrderDetailsStatus = async function (req, res) {
             approvalStatus: Buffer.from(orderDetails.orderStatus),
             comment: Buffer.from(orderDetails.comment)
         }
-        let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, [], req.username, req.orgname, data);
+        const args = [orderDetails.orderId, req.orgname, req.username, orderDetails.comment, orderDetails.orderStatus]
+        let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, args, req.username, req.orgname, data);
         const latency = Date.now() - start;
 
         const response_payload = {

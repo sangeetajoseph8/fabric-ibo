@@ -129,7 +129,7 @@ var getAccessRequestListForApprovingOrg = async function (req, res) {
         }
 
         let args = [req.orgname, pageSize, bookmark]
-        let peer = 'peer1.' + req.orgname.toLowerCase() + '.ibo.com'
+        let peer = 'peer0.' + req.orgname.toLowerCase() + '.ibo.com'
 
         let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname);
         const response_payload = {
@@ -165,7 +165,7 @@ var getAccessRequestListForRequestingOrg = async function (req, res) {
         }
 
         let args = [req.orgname, pageSize, bookmark]
-        let peer = 'peer1.' + req.orgname.toLowerCase() + '.ibo.com'
+        let peer = 'peer0.' + req.orgname.toLowerCase() + '.ibo.com'
 
         let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname);
         const response_payload = {
@@ -199,7 +199,7 @@ var checkIfAccessRequestExists = async function (req, res) {
         }
 
         let args = [requestingOrgName, approvingOrgName, orderId]
-        let peer = 'peer1.' + req.orgname.toLowerCase() + '.ibo.com'
+        let peer = 'peer0.' + req.orgname.toLowerCase() + '.ibo.com'
 
         let message = await query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname);
         const response_payload = {
