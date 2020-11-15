@@ -47,7 +47,7 @@ Register the user to get the authorization token.
 
 Refer to the clips in the video folder.
 
-One can run the smart contracts with the help of HTTP calls using the postman collections
+One can run the smart contracts with the help of HTTP calls using the postman collections.
 
 ## Components
 
