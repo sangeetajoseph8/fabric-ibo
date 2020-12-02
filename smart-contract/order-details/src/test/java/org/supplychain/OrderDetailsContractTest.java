@@ -112,7 +112,7 @@ public final class OrderDetailsContractTest {
         String json = asset.toJSONString();
         when(stub.getState("10001")).thenReturn(json.getBytes(StandardCharsets.UTF_8));
 
-        OrderDetails returnedAsset = contract.getOrderDetails(ctx, "10001");
+        OrderDetails returnedAsset = contract.getOrderDetails(ctx, "10001","test");
         // assertEquals(returnedAsset.getValue(), asset.getValue());
     }
 

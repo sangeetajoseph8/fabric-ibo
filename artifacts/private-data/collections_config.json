@@ -4,89 +4,119 @@
           "policy": "OR('CustomerMSP.member')",
           "requiredPeerCount": 1,
           "maxPeerCount": 1,
-          "blockToLive": 0,
+          "blockToLive": 10000,
           "memberOnlyRead": true,
-          "memberOnlyWrite": true
+          "memberOnlyWrite": true,
+          "endorsementPolicy": {
+               "signaturePolicy": "OR('CustomerMSP.member')"
+          }
      },
      {
           "name": "cCuMa",
           "policy": "OR('CustomerMSP.member', 'ManufacturerMSP.member')",
           "requiredPeerCount": 1,
           "maxPeerCount": 2,
-          "blockToLive": 0,
+          "blockToLive": 10000,
           "memberOnlyRead": true,
-          "memberOnlyWrite": true
+          "memberOnlyWrite": true,
+          "endorsementPolicy": {
+               "signaturePolicy": "OR('CustomerMSP.member', 'ManufacturerMSP.member')"
+          }
      },
      {
           "name": "cCuRms",
           "policy": "OR('CustomerMSP.member', 'RawMaterialSupplierMSP.member')",
           "requiredPeerCount": 1,
           "maxPeerCount": 2,
-          "blockToLive": 0,
+          "blockToLive": 10000,
           "memberOnlyRead": true,
-          "memberOnlyWrite": true
+          "memberOnlyWrite": true,
+          "endorsementPolicy": {
+               "signaturePolicy": "OR('CustomerMSP.member', 'RawMaterialSupplierMSP.member')"
+          }
      },
      {
           "name": "cCuCs",
           "policy": "OR('CustomerMSP.member', 'ComponentSupplierMSP.member')",
           "requiredPeerCount": 1,
           "maxPeerCount": 2,
-          "blockToLive": 0,
+          "blockToLive": 10000,
           "memberOnlyRead": true,
-          "memberOnlyWrite": true
+          "memberOnlyWrite": true,
+          "endorsementPolicy": {
+               "signaturePolicy": "OR('CustomerMSP.member', 'ComponentSupplierMSP.member')"
+          }
      },
      {
           "name": "cMa",
           "policy": "OR('ManufacturerMSP.member')",
           "requiredPeerCount": 1,
           "maxPeerCount": 1,
-          "blockToLive": 0,
+          "blockToLive": 10000,
           "memberOnlyRead": true,
-          "memberOnlyWrite": true
+          "memberOnlyWrite": true,
+          "endorsementPolicy": {
+               "signaturePolicy": "OR('ManufacturerMSP.member')"
+          }
      },
      {
           "name": "cMaRms",
           "policy": "OR('ManufacturerMSP.member', 'RawMaterialSupplierMSP.member')",
           "requiredPeerCount": 1,
           "maxPeerCount": 2,
-          "blockToLive": 0,
+          "blockToLive": 10000,
           "memberOnlyRead": true,
-          "memberOnlyWrite": true
+          "memberOnlyWrite": true,
+          "endorsementPolicy": {
+               "signaturePolicy": "OR('ManufacturerMSP.member', 'RawMaterialSupplierMSP.member')"
+          }
      },
      {
           "name": "cMaCs",
           "policy": "OR('ManufacturerMSP.member', 'ComponentSupplierMSP.member')",
           "requiredPeerCount": 1,
           "maxPeerCount": 2,
-          "blockToLive": 0,
+          "blockToLive": 10000,
           "memberOnlyRead": true,
-          "memberOnlyWrite": true
+          "memberOnlyWrite": true,
+          "endorsementPolicy": {
+               "signaturePolicy": "OR('ManufacturerMSP.member', 'ComponentSupplierMSP.member')"
+          }
      },
      {
           "name": "cRms",
           "policy": "OR('RawMaterialSupplierMSP.member')",
           "requiredPeerCount": 1,
           "maxPeerCount": 1,
-          "blockToLive": 0,
+          "blockToLive": 10000,
           "memberOnlyRead": true,
-          "memberOnlyWrite": true
+          "memberOnlyWrite": true,
+          "endorsementPolicy": {
+               "signaturePolicy": "OR('RawMaterialSupplierMSP.member')"
+          }
      },
      {
           "name": "cRmsCs",
           "policy": "OR('RawMaterialSupplierMSP.member', 'ComponentSupplierMSP.member')",
           "requiredPeerCount": 1,
           "maxPeerCount": 2,
-          "blockToLive": 0,
+          "blockToLive": 10000,
           "memberOnlyRead": true,
-          "memberOnlyWrite": true
+          "memberOnlyWrite": true,
+          "endorsementPolicy": {
+               "signaturePolicy": "OR('RawMaterialSupplierMSP.member', 'ComponentSupplierMSP.member')"
+          }
      },
      {
           "name": "cCs",
           "policy": "OR('ComponentSupplierMSP.member')",
           "requiredPeerCount": 1,
           "maxPeerCount": 2,
-          "blockToLive": 0,
+          "blockToLive": 10000,
           "memberOnlyRead": true,
-          "memberOnlyWrite": true
+          "memberOnlyWrite": true,
+          "endorsementPolicy": {
+               "signaturePolicy": "OR('ComponentSupplierMSP.member')"
+          }
      }
 ]

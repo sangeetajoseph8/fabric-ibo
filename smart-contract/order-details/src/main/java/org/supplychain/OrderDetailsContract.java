@@ -58,25 +58,32 @@ public class OrderDetailsContract implements ContractInterface {
         }
         asset.setLastUpdated(new Date().toString());
         asset.setPublishedDate(new Date().toString());
-
+        List<String> accessingOrgNames = new ArrayList<>();
+        accessingOrgNames.add(asset.getInitiatorOrgName());
         if (asset.getApproverOrgName() != null && !asset.getApproverOrgName().isEmpty()) {
             asset.setInitiatorOrgApprovalStatus(OrderStatus.PENDING);
             asset.setApproverOrgApprovalStatus(OrderStatus.PENDING);
             asset.setApprovalNeededForOrg(asset.getApproverOrgName());
+            accessingOrgNames.add(asset.getApproverOrgName());
         } else {
             asset.setInitiatorOrgApprovalStatus(OrderStatus.NOT_NEEDED);
         }
+        asset.setAccessingOrgNames(accessingOrgNames);
         ctx.getStub().putState(asset.getOrderId(), asset.toJSONString().getBytes(UTF_8));
 
     }
 
     @Transaction()
-    public OrderDetails getOrderDetails(Context ctx, String orderDetailsId) {
+    public OrderDetails getOrderDetails(Context ctx, String orderDetailsId, String accessingOrgName) {
         boolean exists = orderDetailsExists(ctx, orderDetailsId);
         if (!exists) {
             return new OrderDetails();
         }
-        return OrderDetails.fromJSONString(new String(ctx.getStub().getState(orderDetailsId), UTF_8));
+        OrderDetails order = OrderDetails.fromJSONString(new String(ctx.getStub().getState(orderDetailsId), UTF_8));
+        if(order.getAccessingOrgNames().contains(accessingOrgName)){
+            return order;
+        }
+        return null;
     }
 
     @Transaction()
@@ -246,6 +253,14 @@ public class OrderDetailsContract implements ContractInterface {
         if (status.equals(AccessRequestState.APPROVED.name()) || status.equals(AccessRequestState.REJECTED.name())) {
             accessRequest.setApprovalStatus(status);
             accessRequest.setApprovalDate(new Date().toString());
+        }
+
+        if (status.equals(AccessRequestState.APPROVED.name())){
+            OrderDetails od = getOrderDetails(ctx,accessRequest.getOrderId(),approvalOrgName);
+            List<String> temp = od.getAccessingOrgNames();
+            temp.add(accessRequest.getRequestingOrgName());
+            od.setAccessingOrgNames(temp);
+            ctx.getStub().putState(od.getOrderId(), od.toJSONString().getBytes(UTF_8));
         }
         ctx.getStub().putState(accessRequest.getAccessRequestId(), accessRequest.toJSONString().getBytes(UTF_8));
         return accessRequest.getAccessRequestId();

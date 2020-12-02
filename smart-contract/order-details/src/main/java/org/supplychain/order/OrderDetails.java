@@ -60,6 +60,9 @@ public class OrderDetails {
     @Property
     private List<String> connectedOrderIds;
 
+    @Property
+    private List<String> accessingOrgNames;
+
     public String getApprovalNeededForOrg() {
         return approvalNeededForOrg;
     }
@@ -232,8 +235,17 @@ public class OrderDetails {
                 ", orderType='" + orderType + '\'' +
                 ", fileList=" + fileList +
                 ", orderDate='" + orderDate + '\'' +
-                ", approvalNeededForOrgName='" + approvalNeededForOrg + '\'' +
+                ", approvalNeededForOrg='" + approvalNeededForOrg + '\'' +
                 ", connectedOrderIds=" + connectedOrderIds +
+                ", accessingOrgNames=" + accessingOrgNames +
                 '}';
+    }
+
+    public List<String> getAccessingOrgNames() {
+        return accessingOrgNames;
+    }
+
+    public void setAccessingOrgNames(List<String> accessingOrgNames) {
+        this.accessingOrgNames = accessingOrgNames;
     }
 }
